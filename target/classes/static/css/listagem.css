@@ -1,0 +1,131 @@
+/* ============================================================
+   PÁGINAS DE LISTAGEM (Acervo, Coleções, Desapega Uni)
+   ============================================================ */
+
+.listagem-main {
+    padding: 20px var(--side-pad) 100px;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    width: 100%;
+}
+
+.listagem-titulo-topo {
+    font-family: var(--font-display);
+    font-size: 40px;
+    font-weight: 700;
+    color: var(--color-dark);
+    margin-bottom: 10px;
+}
+
+/* Texto descritivo exclusivo do Desapega Uni */
+.listagem-texto {
+    font-size: 16px;
+    color: var(--color-dark);
+    line-height: 1.5;
+    margin-bottom: 30px;
+    max-width: 900px;
+}
+
+.listagem-container {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+/* --- Barra Lateral (Filtros) --- */
+.sidebar-filtros {
+    width: 260px;
+    flex-shrink: 0;
+    border: 1px solid #000;
+    border-radius: 10px;
+    background-color: var(--color-bg);
+    padding: 20px;
+}
+
+.sidebar-titulo {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--color-dark);
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.filtro-group { margin-bottom: 20px; }
+.filtro-label { display: block; font-size: 14px; font-weight: 600; color: var(--color-dark); margin-bottom: 6px; }
+.filtro-input { width: 100%; height: 35px; border: 1px solid #000; border-radius: 20px; padding: 0 12px; font-size: 12px; background: transparent; outline: none; }
+.filtro-row { display: flex; gap: 10px; align-items: center; }
+.filtro-row .filtro-input { text-align: center; }
+.filtro-checkbox-group { display: flex; flex-direction: column; gap: 6px; }
+.filtro-checkbox { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--color-dark); cursor: pointer; }
+.filtro-checkbox input[type="checkbox"] { width: 14px; height: 14px; border: 1px solid #000; border-radius: 3px; appearance: none; cursor: pointer; position: relative; }
+.filtro-checkbox input[type="checkbox"]:checked { background-color: var(--color-header); }
+.filtro-checkbox input[type="checkbox"]:checked::after { content: ''; position: absolute; left: 4px; top: 1px; width: 4px; height: 8px; border: solid white; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+
+.btn-procurar {
+    width: 100%;
+    height: 40px;
+    background-color: var(--color-header);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.2s;
+}
+.btn-procurar:hover { background-color: var(--color-dark); }
+
+/* --- Grade de Resultados --- */
+.resultados-grid {
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.card-horizontal {
+    display: flex;
+    border: 1px solid #000;
+    border-radius: 15px;
+    overflow: hidden;
+    height: 160px;
+    background: var(--color-bg);
+}
+
+.card-horiz-img { width: 40%; border-right: 1px solid #000; background: var(--color-gray); position: relative; flex-shrink: 0; }
+.card-horiz-img::before, .card-horiz-img::after { content: ''; position: absolute; top: 50%; left: -20%; width: 140%; height: 1px; background-color: #000; }
+.card-horiz-img::before { transform: rotate(55deg); }
+.card-horiz-img::after { transform: rotate(-55deg); }
+
+.card-horiz-info { width: 60%; padding: 12px; display: flex; flex-direction: column; justify-content: flex-start; gap: 4px; }
+.card-tag { font-size: 8px; font-weight: 600; color: var(--color-dark); margin-bottom: 2px; }
+.card-titulo { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--color-dark); line-height: 1.1; }
+.card-preco { font-size: 16px; font-weight: 700; color: var(--color-accent); margin-bottom: 4px; }
+.card-detalhe { font-size: 9px; color: var(--color-dark); line-height: 1.2; }
+
+.card-horizontal {
+    display: flex;
+    border: 1px solid #000;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #fff;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+}
+
+.card-horizontal:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+a.card-horizontal {
+    text-decoration: none;
+    color: var(--color-dark);
+}
+
+@media (max-width: 900px) {
+    .listagem-container { flex-direction: column; }
+    .sidebar-filtros { width: 100%; }
+}

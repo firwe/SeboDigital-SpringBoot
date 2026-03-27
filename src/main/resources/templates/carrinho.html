@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Carrinho - Sebo Digital</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/listagem.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<main class="secao" style="padding-top: 40px; padding-bottom: 80px;">
+
+    <div class="breadcrumb" style="margin-bottom: 30px;">
+        <a th:href="@{/acervo}">&larr; Continuar Comprando</a>
+    </div>
+
+    <h1 class="secao-titulo">Meu Carrinho</h1>
+
+    <div style="display: flex; gap: 40px; align-items: flex-start; flex-wrap: wrap;">
+
+        <div style="flex: 2; min-width: 400px; display: flex; flex-direction: column; gap: 20px;">
+
+            <div class="card-horizontal" style="height: auto; padding: 15px;">
+                <div class="card-horiz-img" style="width: 120px; height: 160px; flex-shrink: 0;"></div>
+
+                <div class="card-horiz-info" style="flex: 1; margin-left: 20px; display: flex; flex-direction: column; justify-content: center;">
+                    <span class="card-titulo" style="font-size: 24px;">Quarto de Despejo</span>
+                    <span class="card-detalhe">Carolina Maria de Jesus</span>
+                    <span class="card-preco" style="margin-top: 10px;">R$ 35,00</span>
+
+                    <div style="margin-top: 15px; display: flex; align-items: center; gap: 15px;">
+                        <button style="background: none; border: 1px solid #000; border-radius: 5px; padding: 2px 8px; cursor: pointer;">-</button>
+                        <span>1</span>
+                        <button style="background: none; border: 1px solid #000; border-radius: 5px; padding: 2px 8px; cursor: pointer;">+</button>
+                        <a href="#" style="color: #ff4d4d; font-size: 14px; margin-left: 20px;">Remover</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-horizontal" style="height: auto; padding: 15px;" th:each="i : ${#numbers.sequence(1, 1)}">
+                <div class="card-horiz-img" style="width: 120px; height: 160px; flex-shrink: 0;"></div>
+                <div class="card-horiz-info" style="flex: 1; margin-left: 20px;">
+                    <span class="card-titulo" style="font-size: 24px;">Título do Livro</span>
+                    <span class="card-preco">R$ 20,00</span>
+                    <div style="margin-top: 15px;"><a href="#" style="color: #ff4d4d;">Remover</a></div>
+                </div>
+            </div>
+        </div>
+
+        <aside style="flex: 1; min-width: 300px; background: #fff; border: 1px solid #000; border-radius: 20px; padding: 30px; box-shadow: var(--shadow-card);">
+            <h2 style="font-family: var(--font-display); margin-bottom: 20px;">Resumo</h2>
+
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                <span>Subtotal (2 itens)</span>
+                <span>R$ 55,00</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                <span>Frete</span>
+                <span style="color: #22c55e;">Grátis</span>
+            </div>
+
+            <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ddd;">
+
+            <div style="display: flex; justify-content: space-between; margin-bottom: 30px; font-weight: bold; font-size: 20px;">
+                <span>Total</span>
+                <span style="color: var(--color-accent);">R$ 55,00</span>
+            </div>
+
+            <button class="btn-auth">Finalizar Compra</button>
+        </aside>
+
+    </div>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

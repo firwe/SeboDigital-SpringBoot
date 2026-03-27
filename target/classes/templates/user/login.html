@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Sebo Digital</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<main class="auth-main">
+    <div class="breadcrumb">
+        <a th:href="@{/}">Home</a> | Login
+    </div>
+
+    <div class="auth-container">
+        <div class="auth-icon"></div>
+
+        <h1 class="auth-title">Acesse sua conta</h1>
+
+        <p th:if="${param.erro}" style="color: #ff4d4d; margin-bottom: 15px; font-weight: bold;">
+            E-mail ou senha inválidos!
+        </p>
+
+        <form th:action="@{/login}" method="post" class="auth-form">
+
+            <div class="form-group">
+                <label class="form-label">E-mail</label>
+                <input type="email" name="email" class="form-input" placeholder="Digite seu e-mail" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Senha</label>
+                <input type="password" name="password" class="form-input" placeholder="Digite sua senha" required>
+            </div>
+
+            <div class="form-links">
+                <div class="form-links-right">
+                    <a href="#">Esqueceu a senha?</a>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-auth">Entrar</button>
+
+            <p style="text-align: center; margin-top: 20px;">
+                Não tem conta? <a th:href="@{/cadastro}" style="color: var(--color-accent); font-weight: bold;">Cadastre-se</a>
+            </p>
+        </form>
+    </div>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

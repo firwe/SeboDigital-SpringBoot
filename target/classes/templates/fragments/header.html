@@ -1,0 +1,63 @@
+<header class="header" th:fragment="header">
+    <div class="header-top">
+        <a th:href="@{/}" class="header-logo">
+            <img src="https://www.figma.com/api/mcp/asset/9e0ea7f2-86bf-4b56-9380-14845fe45d9b" alt="Sebo Digital">
+        </a>
+
+        <div class="header-search">
+            <input type="search" placeholder="Busque por títulos, autores ou palavras-chave">
+        </div>
+
+        <div class="header-actions">
+            <a href="#" class="action-item">
+                <div class="action-icon"><img th:src="@{/img/favoritos.png}" alt="Favoritos"></div>
+                <span class="action-label">Favoritos</span>
+            </a>
+
+            <a th:href="@{/carrinho}" class="action-item">
+                <div class="action-icon"><img th:src="@{/img/carrinho.png}" alt="Carrinho"></div>
+                <span class="action-label">Carrinho</span>
+            </a>
+
+            <a th:href="@{/login}" class="action-item" th:if="${session.usuarioLogado == null}">
+                <div class="action-icon"><img th:src="@{/img/user-off.png}" alt="Login"></div>
+                <span class="action-label">Faça Login</span>
+            </a>
+
+            <div class="action-item" th:if="${session.usuarioLogado != null}">
+                <div class="action-icon"><img th:src="@{/img/user-on.png}" alt="Perfil"></div>
+                <span class="action-label" th:text="${session.usuarioLogado.nome}">User Name</span>
+                <a th:href="@{/logout}" style="font-size: 10px; color: #ff4d4d; display: block;">Sair</a>
+            </div>
+        </div>
+    </div>
+
+    <nav class="header-nav">
+        <div class="dropdown">
+            <button class="nav-btn">
+                <div class="hamburger-icon"><span></span><span></span><span></span></div>
+                Categorias
+            </button>
+            <div class="dropdown-content">
+                <a th:href="@{/acervo(categoria='Literatura Brasileira')}">Literatura Brasileira</a>
+                <a th:href="@{/acervo(categoria='Literatura Estrangeira')}">Literatura Estrangeira</a>
+                <a th:href="@{/acervo(categoria='Romance')}">Romance</a>
+                <a th:href="@{/acervo(categoria='Poesia')}">Poesia</a>
+                <a th:href="@{/acervo(categoria='Terror')}">Terror</a>
+                <a th:href="@{/acervo(categoria='Misterio')}">Mistério & Suspense</a>
+                <a th:href="@{/acervo(categoria='Infanto Juvenil')}">Infanto Juvenil</a>
+                <a th:href="@{/acervo(categoria='Mangas')}">Mangás</a>
+                <a th:href="@{/acervo(categoria='HQs')}">HQs</a>
+                <a th:href="@{/acervo(categoria='Autoajuda')}">Autoajuda</a>
+                <hr>
+                <a th:href="@{/desapega}" style="font-weight: bold; color: var(--color-accent);">Desapega Uni</a>
+            </div>
+        </div>
+
+        <a th:href="@{/acervo}" class="nav-btn">Explorar Acervo</a>
+        <a th:href="@{/colecoes}" class="nav-btn">Coleções</a>
+        <a th:href="@{/desapega}" class="nav-btn">Desapega Uni</a>
+        <a th:href="@{/anunciar}" class="nav-btn">Anuncie seu livro!</a>
+        <a href="#" class="nav-btn">Precisa de ajuda?</a>
+    </nav>
+</header>
