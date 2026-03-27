@@ -1,7 +1,3 @@
-/* ============================================================
-   PÁGINAS DE LISTAGEM (Acervo, Coleções, Desapega Uni)
-   ============================================================ */
-
 .listagem-main {
     padding: 20px var(--side-pad) 100px;
     max-width: var(--max-width);
@@ -17,7 +13,6 @@
     margin-bottom: 10px;
 }
 
-/* Texto descritivo exclusivo do Desapega Uni */
 .listagem-texto {
     font-size: 16px;
     color: var(--color-dark);
@@ -32,7 +27,6 @@
     align-items: flex-start;
 }
 
-/* --- Barra Lateral (Filtros) --- */
 .sidebar-filtros {
     width: 260px;
     flex-shrink: 0;
@@ -77,7 +71,6 @@
 }
 .btn-procurar:hover { background-color: var(--color-dark); }
 
-/* --- Grade de Resultados --- */
 .resultados-grid {
     flex-grow: 1;
     display: grid;

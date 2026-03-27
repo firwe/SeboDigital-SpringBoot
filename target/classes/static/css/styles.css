@@ -30,7 +30,7 @@ body {
     color: var(--color-dark);
 }
 
-/* --- HEADER --- */
+/* HEADER */
 
 .header {
     background: var(--color-header);
@@ -259,7 +259,50 @@ body {
     color: white;
 }
 
-.livros-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; }
+.livros-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 20px;
+}
+
+.colecoes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.categorias-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 20px;
+}
+
+.secao-categorias {
+    padding-bottom: 80px;
+}
+
+.categoria-card {
+    height: 100px;
+    background: var(--color-gray);
+    border: 1px solid #000;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 10px;
+    box-shadow: var(--shadow-card);
+}
+
+.colecao-card {
+    height: 220px;
+    border: 1px solid #000;
+    border-radius: 20px;
+    background: var(--color-gray);
+    box-shadow: var(--shadow-card);
+    position: relative;
+    overflow: hidden;
+}
 
 .livro-card {
     border: 1px solid #000;
@@ -283,7 +326,7 @@ body {
 .livro-nome { font-family: var(--font-display); font-size: 14px; font-weight: 500; }
 .livro-preco { color: var(--color-accent); font-weight: 700; }
 
-/* --- AUTH (LOGIN / CADASTRO) --- */
+/* AUTH (LOGIN / CADASTRO) */
 
 .auth-main {
     padding: 20px var(--side-pad) 100px;
@@ -337,7 +380,7 @@ body {
     cursor: pointer;
 }
 
-/* --- FOOTER --- */
+/* FOOTER */
 
 .footer {
     background: var(--color-dark);
@@ -358,7 +401,7 @@ body {
     gap: 10px;
 }
 
-/* --- RESPONSIVIDADE --- */
+/* RESPONSIVIDADE */
 
 @media (max-width: 1200px) {
     :root { --side-pad: 40px; }

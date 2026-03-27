@@ -1,7 +1,3 @@
-/* ============================================================
-   PÁGINA: ANUNCIE SEU LIVRO (anunciar.css)
-   ============================================================ */
-
 .anunciar-main {
     padding: 20px var(--side-pad) 100px;
     max-width: var(--max-width);
@@ -28,14 +24,12 @@
     max-width: 900px;
 }
 
-/* --- Layout Principal (2 Colunas) --- */
 .anunciar-layout {
     display: flex;
     gap: 40px;
     align-items: flex-start;
 }
 
-/* Coluna Esquerda: Upload de Imagem */
 .upload-img-box {
     width: 280px;
     height: 380px;
@@ -78,16 +72,14 @@
     cursor: pointer;
 }
 
-/* Coluna Direita: Formulário e Abas */
 .anunciar-form-area {
     flex-grow: 1;
 }
 
-/* --- Sistema de Abas --- */
 .tabs-container {
     display: flex;
     gap: 10px;
-    padding-left: 20px; /* Para não grudar na borda esquerda */
+    padding-left: 20px;
 }
 
 .tab-btn {
@@ -102,7 +94,7 @@
     padding: 10px 40px;
     cursor: pointer;
     position: relative;
-    bottom: -1px; /* Faz a aba encostar na borda da caixa abaixo */
+    bottom: -1px;
     z-index: 1;
     transition: all 0.2s;
 }
@@ -110,28 +102,26 @@
 .tab-btn.active {
     background-color: var(--color-bg);
     color: var(--color-dark);
-    z-index: 10; /* Fica por cima da borda da caixa */
+    z-index: 10;
 }
 
 .tab-btn:not(.active) {
-    background-color: #e2e8f0; /* Cor de aba inativa */
+    background-color: #e2e8f0;
     color: var(--color-muted);
     border-bottom: 1px solid #000;
     z-index: 1;
 }
 
-/* --- Caixa do Formulário --- */
 .form-box {
     border: 1px solid #000;
     border-radius: 20px;
-    border-top-left-radius: 0; /* Para conectar com a primeira aba */
+    border-top-left-radius: 0;
     padding: 30px;
     background-color: var(--color-bg);
     position: relative;
     z-index: 5;
 }
 
-/* Estrutura do Grid Interno */
 .form-row-3col {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -152,7 +142,6 @@
     gap: 20px;
 }
 
-/* Estilos de Inputs (Reaproveitados/Ajustados) */
 .input-group {
     display: flex;
     flex-direction: column;
@@ -188,7 +177,6 @@
     resize: none;
 }
 
-/* Conservação (Radio Buttons) */
 .radio-group {
     display: flex;
     flex-direction: column;
@@ -213,7 +201,6 @@
     cursor: pointer;
 }
 
-/* Categorias (Checkboxes) - Usando 2 colunas */
 .cat-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -239,15 +226,14 @@
     border-radius: 25px;
     cursor: pointer;
     display: block;
-    margin: 0 auto; /* Centraliza o botão */
+    margin: 0 auto;
     transition: background-color 0.2s;
 }
 
 .btn-laranja:hover {
-    background-color: #d97706; /* Laranja mais escuro */
+    background-color: #d97706;
 }
 
-/* Responsividade Básica do Formulário */
 @media (max-width: 900px) {
     .anunciar-layout {
         flex-direction: column;
