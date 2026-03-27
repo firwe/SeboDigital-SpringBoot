@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <title>Ajuda - Sebo Digital</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
     <style>
-        .ajuda-container { max-width: 800px; margin: 50px auto; padding: 0 20px; }
+        .ajuda-container { max-width: 800px; margin: 50px auto; padding: 0 20px; flex: 1; }
         .faq-item { background: white; border: 1px solid #000; border-radius: 15px; padding: 20px; margin-bottom: 20px; box-shadow: var(--shadow-card); }
         .faq-pergunta { font-family: var(--font-display); font-weight: 700; font-size: 20px; color: var(--color-accent); margin-bottom: 10px; }
         .faq-resposta { font-size: 16px; color: var(--color-dark); line-height: 1.6; }
@@ -13,26 +15,13 @@
 </head>
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
-
 <main class="ajuda-container">
     <h1 class="secao-titulo">Como podemos ajudar?</h1>
-
     <div class="faq-item">
-        <div class="faq-pergunta">Como faço para comprar um livro?</div>
-        <div class="faq-resposta">Basta navegar pelo acervo, escolher o seu livro favorito e clicar em "Adicionar ao Carrinho". Depois, siga para o checkout.</div>
-    </div>
-
-    <div class="faq-item">
-        <div class="faq-pergunta">Posso vender meus livros usados?</div>
-        <div class="faq-resposta">Sim! Use a aba "Anuncie seu livro" para cadastrar os detalhes do seu exemplar e ele aparecerá em nosso acervo.</div>
-    </div>
-
-    <div class="faq-item">
-        <div class="faq-pergunta">O que é o Desapega Uni?</div>
-        <div class="faq-resposta">É a nossa seção exclusiva para troca e venda de materiais acadêmicos entre estudantes da mesma universidade.</div>
+        <div class="faq-pergunta">Como faço para comprar?</div>
+        <div class="faq-resposta">Navegue pelo site, adicione ao carrinho e finalize o pedido.</div>
     </div>
 </main>
-
 <div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

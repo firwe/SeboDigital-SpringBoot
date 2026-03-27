@@ -1,3 +1,7 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
 <header class="header" th:fragment="header">
     <div class="header-top">
         <a th:href="@{/}" class="header-logo">
@@ -27,7 +31,7 @@
             <div class="action-item" th:if="${session.usuarioLogado != null}">
                 <div class="action-icon"><img th:src="@{/img/user-on.png}" alt="Perfil"></div>
                 <span class="action-label" th:text="${session.usuarioLogado.nome}">User Name</span>
-                <a th:href="@{/logout}" style="font-size: 10px; color: #ff4d4d; display: block;">Sair</a>
+                <a th:href="@{/logout}" class="logout-link">Sair</a>
             </div>
         </div>
     </div>
@@ -39,6 +43,7 @@
                 Categorias
             </button>
             <div class="dropdown-content">
+                <div class="dropdown-header">▲ Categorias</div>
                 <a th:href="@{/acervo(categoria='Literatura Brasileira')}">Literatura Brasileira</a>
                 <a th:href="@{/acervo(categoria='Literatura Estrangeira')}">Literatura Estrangeira</a>
                 <a th:href="@{/acervo(categoria='Romance')}">Romance</a>
@@ -49,6 +54,7 @@
                 <a th:href="@{/acervo(categoria='Mangas')}">Mangás</a>
                 <a th:href="@{/acervo(categoria='HQs')}">HQs</a>
                 <a th:href="@{/acervo(categoria='Autoajuda')}">Autoajuda</a>
+                <a th:href="@{/acervo(categoria='Empreendedorismo')}">Empreendedorismo</a>
                 <hr>
                 <a th:href="@{/desapega}" style="font-weight: bold; color: var(--color-accent);">Desapega Uni</a>
             </div>
@@ -61,3 +67,6 @@
         <a th:href="@{/ajuda}" class="nav-btn">Precisa de ajuda?</a>
     </nav>
 </header>
+
+</body>
+</html>

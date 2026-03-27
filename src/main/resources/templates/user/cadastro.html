@@ -10,83 +10,105 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/auth.css}"> <link rel="stylesheet" th:href="@{/css/footer.css}">
 </head>
 <body>
 
 <div th:replace="~{fragments/header :: header}"></div>
 
 <main class="auth-main">
-
-    <div class="breadcrumb">
-        <a th:href="@{/}">Home</a> | <a th:href="@{/login}">Faça Login</a> | Cadastro
+    <div class="auth-container" style="max-width: 800px;"> <div class="breadcrumb" style="align-self: flex-start; margin-bottom: 20px;">
+        <a th:href="@{/}">Home</a> | <a th:href="@{/login}">Login</a> | Cadastro
     </div>
 
-    <div class="auth-container">
+        <h1 class="auth-title">Crie sua conta</h1>
+        <p style="text-align: center; margin-bottom: 30px; color: var(--color-muted);">Junte-se à nossa comunidade de leitores.</p>
 
-        <div class="auth-icon"></div>
+        <form th:action="@{/usuarios/cadastrar}" method="post" class="auth-form">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%;">
 
-        <h1 class="auth-title">Cadastre-se</h1>
+                <div class="form-group">
+                    <label class="form-label">Nome Completo:*</label>
+                    <input type="text" name="nome" class="form-input" placeholder="Seu nome" required>
+                </div>
 
-        <form th:action="@{/cadastro}" method="post" class="auth-form">
-
-            <div class="form-grid">
                 <div class="form-group">
                     <label class="form-label">E-mail:*</label>
-                    <input type="email" name="email" class="form-input" placeholder="Digite o e-mail" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Confirme seu E-mail:*</label>
-                    <input type="email" class="form-input" placeholder="Confirme o e-mail cadastrado" required>
+                    <input type="email" name="email" class="form-input" placeholder="seu@email.com" required>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Senha:*</label>
-                    <input type="password" name="password" class="form-input" placeholder="Crie sua senha" required>
+                    <input type="password" name="senha" class="form-input" placeholder="No mínimo 6 caracteres" required>
                 </div>
+
                 <div class="form-group">
-                    <label class="form-label">Confirme sua senha:*</label>
+                    <label class="form-label">Confirme a Senha:*</label>
                     <input type="password" class="form-input" placeholder="Repita a senha" required>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Data de nascimento:*</label>
-                    <input type="text" name="dataNasc" class="form-input" placeholder="dd/mm/aaaa" required>
+                    <label class="form-label">Telefone:*</label>
+                    <input type="tel" name="telefone" class="form-input" placeholder="(00) 00000-0000" required>
                 </div>
+
+                <div class="form-group">
+                    <label class="form-label">Data de Nascimento:*</label>
+                    <input type="date" name="dataNascimento" class="form-input" required>
+                </div>
+
                 <div class="form-group">
                     <label class="form-label">Estado onde reside:*</label>
-                    <select name="estado" class="form-select" required>
-                        <option value="" disabled selected>Escolha seu estado</option>
-                        <option value="SP">São Paulo</option>
-                        <option value="RJ">Rio de Janeiro</option>
+                    <select name="estado" class="form-input" style="appearance: auto;" required>
+                        <option value="" disabled selected>Selecione seu estado</option>
+                        <option value="AC">Acre</option>
+                        <option value="AL">Alagoas</option>
+                        <option value="AP">Amapá</option>
+                        <option value="AM">Amazonas</option>
+                        <option value="BA">Bahia</option>
+                        <option value="CE">Ceará</option>
+                        <option value="DF">Distrito Federal</option>
+                        <option value="ES">Espírito Santo</option>
+                        <option value="GO">Goiás</option>
+                        <option value="MA">Maranhão</option>
+                        <option value="MT">Mato Grosso</option>
+                        <option value="MS">Mato Grosso do Sul</option>
                         <option value="MG">Minas Gerais</option>
+                        <option value="PA">Pará</option>
+                        <option value="PB">Paraíba</option>
+                        <option value="PR">Paraná</option>
+                        <option value="PE">Pernambuco</option>
+                        <option value="PI">Piauí</option>
+                        <option value="RJ">Rio de Janeiro</option>
+                        <option value="RN">Rio Grande do Norte</option>
+                        <option value="RS">Rio Grande do Sul</option>
+                        <option value="RO">Rondônia</option>
+                        <option value="RR">Roraima</option>
+                        <option value="SC">Santa Catarina</option>
+                        <option value="SP">São Paulo</option>
+                        <option value="SE">Sergipe</option>
+                        <option value="TO">Tocantins</option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Cidade:*</label>
-                    <input type="text" name="cidade" class="form-input" placeholder="Escolha sua cidade" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Telefone:*</label>
-                    <input type="tel" name="telefone" class="form-input" placeholder="Digite seu número" required>
+                    <input type="text" name="cidade" class="form-input" placeholder="Sua cidade" required>
                 </div>
             </div>
 
-            <div class="checkbox-group">
+            <div class="checkbox-group" style="margin-top: 20px;">
                 <label class="checkbox-item">
                     <input type="checkbox" required>
-                    <span>Estou ciente e concordo com os <i>termos de uso</i></span>
-                </label>
-                <label class="checkbox-item">
-                    <input type="checkbox" required>
-                    <span>Estou ciente e concordo com a <i>política de privacidade</i></span>
+                    <span>Aceito os <u>termos de uso</u> e <u>privacidade</u></span>
                 </label>
             </div>
 
-            <button type="submit" class="btn-auth">Finalizar Cadastro</button>
-
+            <form th:action="@{/usuarios/cadastrar}" method="post" class="auth-form">
+                <button type="submit" class="btn-auth">Finalizar Cadastro</button>
+            </form>
         </form>
-
     </div>
 </main>
 

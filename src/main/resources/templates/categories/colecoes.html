@@ -7,11 +7,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
     <link rel="stylesheet" th:href="@{/css/listagem.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
 </head>
 <body>
-
 <div th:replace="~{fragments/header :: header}"></div>
 
 <main class="listagem-main">
@@ -19,30 +21,59 @@
         <a th:href="@{/}">&larr; Voltar</a> | Coleções
     </div>
 
-    <h1 class="listagem-titulo-topo" style="text-align: center;">Veja nossas coleções</h1>
+    <h1 class="listagem-titulo-topo">Veja nossas coleções exclusivas</h1>
+
+    <div class="desapega-info-texto">
+        <p>Explore conjuntos de obras selecionadas por autores, gêneros ou sagas completas. As coleções são ideais para quem deseja mergulhar fundo em uma história ou completar sua estante com edições especiais e boxes completos.</p>
+    </div>
 
     <div class="listagem-container">
         <aside class="sidebar-filtros">
             <h2 class="sidebar-titulo">Refine sua pesquisa aqui!</h2>
-            <form action="#">
+            <form th:action="@{/colecoes}" method="get">
                 <div class="filtro-group">
-                    <label class="filtro-label">Coleção:</label>
-                    <input type="text" class="filtro-input" placeholder="Digite o nome da coleção">
+                    <label class="filtro-label">Nome da Coleção/Box:</label>
+                    <input type="text" name="titulo" class="filtro-input" placeholder="Ex: Harry Potter">
                 </div>
+
+                <div class="filtro-group">
+                    <label class="filtro-label">Autor/Organizador:</label>
+                    <input type="text" name="autor" class="filtro-input" placeholder="Nome do(a) autor(a)">
+                </div>
+
+                <div class="filtro-group">
+                    <label class="filtro-label">Faixa de Preço:</label>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <input type="number" name="min" class="filtro-input" placeholder="Min">
+                        <input type="number" name="max" class="filtro-input" placeholder="Max">
+                    </div>
+                </div>
+
+                <div class="filtro-group">
+                    <label class="filtro-label">Gênero da Coleção:</label>
+                    <div class="filtro-checkbox-list">
+                        <label class="filtro-checkbox-item"><input type="checkbox"> Fantasia & Épico</label>
+                        <label class="filtro-checkbox-item"><input type="checkbox"> Clássicos em Box</label>
+                        <label class="filtro-checkbox-item"><input type="checkbox"> Ficção Científica</label>
+                        <label class="filtro-checkbox-item"><input type="checkbox"> Terror & Suspense</label>
+                        <label class="filtro-checkbox-item"><input type="checkbox"> HQs & Graphic Novels</label>
+                    </div>
+                </div>
+
                 <button type="submit" class="btn-procurar">Procurar</button>
             </form>
         </aside>
 
         <div class="resultados-grid">
-            <a th:href="@{/produto}" class="card-horizontal" style="text-decoration: none; color: inherit; display: flex;">
+            <a th:href="@{/produto}" class="card-horizontal">
                 <div class="card-horiz-img"></div>
                 <div class="card-horiz-info">
-                    <span class="card-tag">Coleção - Romance</span>
-                    <span class="card-titulo">Título da Coleção</span>
-                    <span class="card-preco">R$00,00</span>
-                    <span class="card-detalhe"><b>Autor:</b> Nome</span>
-                    <span class="card-detalhe"><b>Conservação:</b> Bom estado</span>
-                    <div class="btn-detalhes" style="margin-top: 10px;">Ver mais</div>
+                    <span class="card-tag">Coleção - Fantasia</span>
+                    <span class="card-titulo">Box Harry Potter - Edição Comemorativa</span>
+                    <span class="card-preco">R$ 249,90</span>
+                    <span class="card-detalhe"><b>Autor:</b> J.K. Rowling</span>
+                    <span class="card-detalhe"><b>Itens:</b> 7 volumes + Poster</span>
+                    <div class="btn-ver-mais">Ver mais</div>
                 </div>
             </a>
         </div>

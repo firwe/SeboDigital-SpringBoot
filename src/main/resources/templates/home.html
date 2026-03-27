@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sebo Digital - Home</title>
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
 </head>
 <body>
 
@@ -18,84 +20,55 @@
 <section class="hero"></section>
 
 <main>
-
     <section class="secao secao-acervo">
         <h2 class="secao-titulo">Veja alguns dos livros do nosso acervo</h2>
         <div class="livros-grid">
-
-            <a th:href="@{/produto}" class="livro-card" style="text-decoration: none; color: inherit; display: block;">
+            <a th:href="@{/produto}" class="livro-card">
                 <div class="livro-img">
                     <img src="https://www.figma.com/api/mcp/asset/10922411-4f2a-4df0-97e4-3ca9e2984df7" alt="Quarto de Despejo">
                 </div>
                 <div class="livro-info">
-                    <div class="livro-info-top">
-                        <span class="livro-nome">Quarto de Despejo</span>
-                        <span class="livro-preco">R$35,00</span>
-                    </div>
-                    <div class="livro-info-bot">
-                        <span class="livro-autor">Carolina Maria de Jesus</span>
-                        <span class="btn-detalhes">Mais detalhes</span>
+                    <span class="livro-nome">Quarto de Despejo</span>
+                    <span class="livro-preco">R$35,00</span>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">
+                        <span class="livro-autor" style="font-size: 11px;">Carolina Maria de Jesus</span>
+                        <span class="btn-detalhes">Detalhes</span>
                     </div>
                 </div>
             </a>
-
-            <a th:href="@{/produto}" class="livro-card" th:each="i : ${#numbers.sequence(1, 5)}" style="text-decoration: none; color: inherit; display: block;">
-                <div class="livro-img"></div>
+            <div th:each="i : ${#numbers.sequence(1, 5)}" class="livro-card">
+                <div class="livro-img" style="height: 150px; background: var(--color-gray);"></div>
                 <div class="livro-info">
-                    <div class="livro-info-top">
-                        <span class="livro-nome">Título Exemplo</span>
-                        <span class="livro-preco">R$00,00</span>
-                    </div>
-                    <div class="livro-info-bot">
-                        <span class="livro-autor">Autor</span>
-                        <span class="btn-detalhes">Mais detalhes</span>
+                    <span class="livro-nome">Título Exemplo</span>
+                    <span class="livro-preco">R$00,00</span>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">
+                        <span class="livro-autor" style="font-size: 11px;">Autor</span>
+                        <span class="btn-detalhes">Detalhes</span>
                     </div>
                 </div>
-            </a>
-        </div>
-    </section>
-
-    <section class="secao secao-colecoes">
-        <h2 class="secao-titulo">Coleções</h2>
-        <div class="colecoes-grid">
-
-            <a th:href="@{/produto}" class="colecao-card" th:each="i : ${#numbers.sequence(1, 3)}" style="text-decoration: none; color: inherit; display: block;">
-                <div class="colecao-img"></div>
-                <div class="colecao-info">
-                    <div class="colecao-info-top">
-                        <span class="colecao-nome">Título Coleção</span>
-                        <span class="colecao-preco">R$00,00</span>
-                    </div>
-                    <div class="colecao-info-bot">
-                        <span class="colecao-autor">Autor</span>
-                        <span class="btn-detalhes">Mais detalhes</span>
-                    </div>
-                </div>
-            </a>
+            </div>
         </div>
     </section>
 
     <section class="secao secao-categorias" id="categorias">
         <h2 class="secao-titulo">Categorias</h2>
         <div class="categorias-grid">
-            <a th:href="@{/acervo}" class="categoria-card"><div class="categoria-label">Literatura Brasileira</div></a>
-            <a th:href="@{/acervo}" class="categoria-card"><div class="categoria-label">Literatura Estrangeira</div></a>
-            <a th:href="@{/acervo}" class="categoria-card"><div class="categoria-label">Romance</div></a>
-            <a th:href="@{/acervo}" class="categoria-card"><div class="categoria-label">Poesia</div></a>
-            <a th:href="@{/acervo}" class="categoria-card"><div class="categoria-label">Terror</div></a>
-            <a th:href="@{/acervo}" class="categoria-card"><div class="categoria-label">Mistério &amp; Suspense</div></a>
-            <a th:href="@{/acervo}" class="categoria-card"><div class="categoria-label">Infanto Juvenil</div></a>
-            <a th:href="@{/acervo}" class="categoria-card"><div class="categoria-label">Mangás</div></a>
-            <a th:href="@{/acervo}" class="categoria-card"><div class="categoria-label">HQs</div></a>
-            <a th:href="@{/acervo}" class="categoria-card"><div class="categoria-label">Autoajuda</div></a>
-            <a th:href="@{/acervo}" class="categoria-card"><div class="categoria-label">Idiomas</div></a>
-            <a th:href="@{/desapega}" class="categoria-card"><div class="categoria-label">Desapega Uni</div></a>
+            <a th:href="@{/acervo}" class="categoria-card">Literatura Brasileira</a>
+            <a th:href="@{/acervo}" class="categoria-card">Literatura Estrangeira</a>
+            <a th:href="@{/acervo}" class="categoria-card">Romance</a>
+            <a th:href="@{/acervo}" class="categoria-card">Poesia</a>
+            <a th:href="@{/acervo}" class="categoria-card">Terror</a>
+            <a th:href="@{/acervo}" class="categoria-card">Mistério & Suspense</a>
+            <a th:href="@{/acervo}" class="categoria-card">Infanto Juvenil</a>
+            <a th:href="@{/acervo}" class="categoria-card">Mangás</a>
+            <a th:href="@{/acervo}" class="categoria-card">HQs</a>
+            <a th:href="@{/acervo}" class="categoria-card">Autoajuda</a>
+            <a th:href="@{/acervo}" class="categoria-card">Idiomas</a>
+            <a th:href="@{/desapega}" class="categoria-card" style="border-color: var(--color-accent); color: var(--color-accent);">Desapega Uni</a>
         </div>
     </section>
-
 </main>
 
 <div th:replace="~{fragments/footer :: footer}"></div>
-
 </body>
 </html>

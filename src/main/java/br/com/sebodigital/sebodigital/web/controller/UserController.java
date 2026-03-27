@@ -30,4 +30,14 @@ public class UserController {
 
         return "redirect:/login?erro";
     }
+
+    @GetMapping("/cadastro")
+    public String exibirCadastro() {
+        return "user/cadastro";
+    }
+
+    @PostMapping("/cadastrar")
+    public String cadastrarUsuario(Usuario usuario) {
+        return "redirect:/login";
+    }
 }

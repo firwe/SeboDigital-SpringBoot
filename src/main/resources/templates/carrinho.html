@@ -4,72 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meu Carrinho - Sebo Digital</title>
+
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
     <link rel="stylesheet" th:href="@{/css/listagem.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
 </head>
 <body>
 
 <div th:replace="~{fragments/header :: header}"></div>
 
-<main class="secao" style="padding-top: 40px; padding-bottom: 80px;">
+<main style="max-width: var(--max-width); margin: 0 auto; padding: 40px var(--side-pad);">
 
     <div class="breadcrumb" style="margin-bottom: 30px;">
         <a th:href="@{/acervo}">&larr; Continuar Comprando</a>
     </div>
 
-    <h1 class="secao-titulo">Meu Carrinho</h1>
+    <h1 class="listagem-titulo-topo" style="margin-bottom: 40px;">Meu Carrinho</h1>
 
-    <div style="display: flex; gap: 40px; align-items: flex-start; flex-wrap: wrap;">
+    <div style="display: flex; gap: 40px; align-items: flex-start;">
 
-        <div style="flex: 2; min-width: 400px; display: flex; flex-direction: column; gap: 20px;">
+        <div style="flex: 2; display: flex; flex-direction: column; gap: 20px;">
 
-            <div class="card-horizontal" style="height: auto; padding: 15px;">
-                <div class="card-horiz-img" style="width: 120px; height: 160px; flex-shrink: 0;"></div>
-
-                <div class="card-horiz-info" style="flex: 1; margin-left: 20px; display: flex; flex-direction: column; justify-content: center;">
-                    <span class="card-titulo" style="font-size: 24px;">Quarto de Despejo</span>
-                    <span class="card-detalhe">Carolina Maria de Jesus</span>
-                    <span class="card-preco" style="margin-top: 10px;">R$ 35,00</span>
-
-                    <div style="margin-top: 15px; display: flex; align-items: center; gap: 15px;">
-                        <button style="background: none; border: 1px solid #000; border-radius: 5px; padding: 2px 8px; cursor: pointer;">-</button>
-                        <span>1</span>
-                        <button style="background: none; border: 1px solid #000; border-radius: 5px; padding: 2px 8px; cursor: pointer;">+</button>
-                        <a href="#" style="color: #ff4d4d; font-size: 14px; margin-left: 20px;">Remover</a>
-                    </div>
+            <div class="card-horizontal" style="height: auto; padding: 20px; border: 1px solid #000; border-radius: 20px; display: flex;">
+                <div style="width: 120px; height: 160px; background: #e2e8f0; border-radius: 10px; flex-shrink: 0; position: relative; overflow: hidden;">
+                    <div style="position: absolute; width: 100%; height: 1px; background: #000; top: 50%; transform: rotate(45deg);"></div>
+                    <div style="position: absolute; width: 100%; height: 1px; background: #000; top: 50%; transform: rotate(-45deg);"></div>
                 </div>
-            </div>
 
-            <div class="card-horizontal" style="height: auto; padding: 15px;" th:each="i : ${#numbers.sequence(1, 1)}">
-                <div class="card-horiz-img" style="width: 120px; height: 160px; flex-shrink: 0;"></div>
-                <div class="card-horiz-info" style="flex: 1; margin-left: 20px;">
-                    <span class="card-titulo" style="font-size: 24px;">Título do Livro</span>
-                    <span class="card-preco">R$ 20,00</span>
-                    <div style="margin-top: 15px;"><a href="#" style="color: #ff4d4d;">Remover</a></div>
+                <div style="margin-left: 25px; flex: 1; display: flex; flex-direction: column;">
+                    <span style="font-size: 12px; color: var(--color-muted);">Literatura Brasileira</span>
+                    <span style="font-family: var(--font-display); font-size: 24px; font-weight: 700; margin: 5px 0;">Quarto de Despejo</span>
+                    <span style="color: var(--color-accent); font-weight: 700; font-size: 20px;">R$ 35,00</span>
+
+                    <div style="margin-top: auto; display: flex; align-items: center; gap: 20px;">
+                        <a href="#" style="color: #ff4d4d; font-size: 14px; font-weight: 600;">Remover item</a>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <aside style="flex: 1; min-width: 300px; background: #fff; border: 1px solid #000; border-radius: 20px; padding: 30px; box-shadow: var(--shadow-card);">
-            <h2 style="font-family: var(--font-display); margin-bottom: 20px;">Resumo</h2>
+        <aside style="flex: 1; background: white; border: 1px solid #000; border-radius: 30px; padding: 30px;">
+            <h2 style="font-family: var(--font-display); font-size: 28px; margin-bottom: 25px;">Resumo</h2>
 
-            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                <span>Subtotal (2 itens)</span>
-                <span>R$ 55,00</span>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 16px;">
+                <span>Produtos (1)</span>
+                <span>R$ 35,00</span>
             </div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 16px;">
                 <span>Frete</span>
-                <span style="color: #22c55e;">Grátis</span>
+                <span style="color: #22c55e; font-weight: 700;">Grátis</span>
             </div>
 
-            <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ddd;">
+            <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
 
-            <div style="display: flex; justify-content: space-between; margin-bottom: 30px; font-weight: bold; font-size: 20px;">
-                <span>Total</span>
-                <span style="color: var(--color-accent);">R$ 55,00</span>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 30px;">
+                <span style="font-size: 20px; font-weight: 700;">Total</span>
+                <span style="font-size: 24px; font-weight: 700; color: var(--color-accent);">R$ 35,00</span>
             </div>
 
-            <button class="btn-auth">Finalizar Compra</button>
+            <button class="nav-btn" style="width: 100%; background: var(--color-header); color: white; justify-content: center; padding: 15px;">
+                Finalizar Compra
+            </button>
         </aside>
 
     </div>

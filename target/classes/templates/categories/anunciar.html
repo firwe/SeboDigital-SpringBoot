@@ -2,125 +2,148 @@
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anuncie seu livro - Sebo Digital</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+    <title>Anuncie seu produto - Sebo Digital</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
     <link rel="stylesheet" th:href="@{/css/anunciar.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
 </head>
 <body>
-
 <div th:replace="~{fragments/header :: header}"></div>
 
 <main class="anunciar-main">
-    <div class="breadcrumb">
-        <a th:href="@{/}">&larr; Voltar</a> | Anuncie seu livro!
+    <div class="breadcrumb"><a th:href="@{/}">&larr; Voltar</a> | Anuncie seu livro!</div>
+    <h1 class="listagem-titulo-topo" style="font-family: var(--font-display); font-size: 40px; margin: 20px 0;">Cadastre seu produto.</h1>
+    <div class="anunciar-intro" style="margin-bottom: 30px;">
+        <p style="font-size: 16px; color: var(--color-dark); margin-bottom: 10px;">
+            Preencha os campos abaixo para anunciar seu produto, é importante que todas as informações sejam verídicas.
+        </p>
+        <p style="font-size: 16px; color: var(--color-dark);">
+            <b>Observação:</b> A plataforma acrescenta o valor da taxa de serviço ao seu anúncio, sendo ela 10% do valor indicado por você.
+        </p>
     </div>
 
-    <div class="anunciar-layout">
-        <div class="upload-img-box">
-            <div class="upload-img-x"></div>
-            <div class="upload-img-btn">Adicione a foto aqui</div>
+    <div class="anunciar-container">
+        <div class="upload-sidebar">
+            <div class="foto-placeholder"></div>
+            <div class="btn-foto-footer">Adicione a foto aqui</div>
         </div>
 
-        <div class="anunciar-form-area">
-            <div class="tabs-container">
-                <button type="button" class="tab-btn active" id="tab-livro">Livro</button>
-                <button type="button" class="tab-btn" id="tab-colecao">Coleção</button>
+        <div class="form-panel">
+            <div class="tabs">
+                <div class="tab" id="tab-livro" onclick="mudarAba('livro')">Livro</div>
+                <div class="tab inactive" id="tab-colecao" onclick="mudarAba('colecao')">Coleção</div>
             </div>
 
-            <div class="form-box">
-                <form th:action="@{/anunciar}" method="post">
-                    <div class="form-row-3col">
-                        <div class="input-group">
-                            <label class="input-label">Título:*</label>
-                            <input type="text" id="input-titulo" name="titulo" class="input-field" placeholder="Digite o título" required>
-                        </div>
-                        <div class="input-group">
-                            <label class="input-label">Autor:*</label>
-                            <input type="text" name="autor" class="input-field" placeholder="Autor" required>
-                        </div>
-                        <div class="input-group">
-                            <label class="input-label">Editora:</label>
-                            <input type="text" name="editora" class="input-field" placeholder="Editora">
-                        </div>
+            <form class="form-body">
+                <div class="input-full">
+                    <label class="label-bold" id="label-titulo">Título:*</label>
+                    <input type="text" class="input-style" id="input-titulo" placeholder="Digite o título do livro">
+                </div>
+                <div class="input-full">
+                    <label class="label-bold">Autor:*</label>
+                    <input type="text" class="input-style" placeholder="Digite o nome do(a) autor(a)">
+                </div>
+                <div class="input-full">
+                    <label class="label-bold">Editora:</label>
+                    <input type="text" class="input-style" placeholder="Digite o nome da editora">
+                </div>
+
+                <div class="coluna-checks">
+                    <label class="label-bold">Ano de publicação:*</label>
+                    <input type="text" class="input-style" placeholder="Digite o ano">
+
+                    <label class="label-bold" style="margin-top: 20px;">Conservação do livro:*</label>
+                    <p style="font-size: 11px; margin-bottom: 10px;"><b>Ótimo estado</b> - Sinais mínimos...<br><b>Bom estado</b> - Bem cuidado...</p>
+                    <label class="check-item"><input type="radio" name="cons"> Ótimo estado</label>
+                    <label class="check-item"><input type="radio" name="cons"> Bom estado</label>
+
+                    <label class="label-bold" style="margin-top: 20px;">Valor:*</label>
+                    <input type="text" class="input-style" placeholder="R$ 10,00">
+                </div>
+
+                <div class="coluna-checks">
+                    <label class="label-bold">Selecione a categoria:*</label>
+                    <label class="check-item"><input type="checkbox"> Literatura Brasileira</label>
+                    <label class="check-item"><input type="checkbox"> Literatura Estrangeira</label>
+                    <label class="check-item"><input type="checkbox"> Romance</label>
+                    <label class="check-item"><input type="checkbox"> Poesia</label>
+                    <label class="check-item"><input type="checkbox"> Terror</label>
+                    <label class="check-item"><input type="checkbox"> Mistério & Suspense</label>
+                    <label class="check-item"><input type="checkbox"> Infanto Juvenil</label>
+                    <label class="check-item"><input type="checkbox" id="trigger-desapega" onclick="mostrarAreas()"> Desapega Uni</label>
+                </div>
+
+                <div class="coluna-checks" id="coluna-areas" style="opacity: 0.3; pointer-events: none;">
+                    <label class="label-bold">Selecione a área:*</label>
+                    <div class="checkbox-group-vertical">
+                        <label class="check-item"><input type="checkbox" name="area" value="Direito"> Direito</label>
+                        <label class="check-item"><input type="checkbox" name="area" value="Letras"> Letras</label>
+                        <label class="check-item"><input type="checkbox" name="area" value="Filosofia & Sociologia"> Filosofia & Sociologia</label>
+                        <label class="check-item"><input type="checkbox" name="area" value="Jornalismo"> Jornalismo</label>
+                        <label class="check-item"><input type="checkbox" name="area" value="Engenharia"> Engenharia</label>
+                        <label class="check-item"><input type="checkbox" name="area" value="Pedagogia"> Pedagogia</label>
+                        <label class="check-item"><input type="checkbox" name="area" value="História & Geografia"> História & Geografia</label>
+                        <label class="check-item"><input type="checkbox" name="area" value="Enfermagem"> Enfermagem</label>
+                        <label class="check-item"><input type="checkbox" name="area" value="Medicina"> Medicina</label>
+                        <label class="check-item"><input type="checkbox" name="area" value="Biomedicina"> Biomedicina</label>
+                        <label class="check-item"><input type="checkbox" name="area" value="Tecnologia"> Tecnologia</label>
                     </div>
+                </div>
 
-                    <div class="form-row-2col">
-                        <div class="form-col">
-                            <div class="input-group">
-                                <label class="input-label">Valor:*</label>
-                                <input type="text" name="valor" class="input-field" placeholder="R$ 10,00" required>
-                            </div>
-                        </div>
+                <div class="row-desc">
+                    <label class="label-bold">Descrição:</label>
+                    <textarea class="input-style" style="height: 120px; padding: 15px; border-radius: 15px; resize: none;" placeholder="Digite aqui"></textarea>
+                </div>
 
-                        <div class="form-col" style="flex-direction: row; gap: 30px;">
-                            <div class="input-group" style="min-width: 180px;">
-                                <label class="input-label">Categorias:*</label>
-                                <div style="display: flex; flex-direction: column; gap: 8px;">
-                                    <label class="radio-item"><input type="checkbox"> <span>Literatura Brasileira</span></label>
-                                    <label class="radio-item"><input type="checkbox"> <span>Literatura Estrangeira</span></label>
-                                    <label class="radio-item"><input type="checkbox"> <span>Romance</span></label>
-                                    <label class="radio-item"><input type="checkbox"> <span>Poesia</span></label>
-                                    <label class="radio-item"><input type="checkbox"> <span>Terror</span></label>
-                                    <label class="radio-item"><input type="checkbox"> <span>Mistério & Suspense</span></label>
-                                    <label class="radio-item"><input type="checkbox"> <span>Infanto Juvenil</span></label>
-                                    <label class="radio-item"><input type="checkbox"> <span>Mangás</span></label>
-                                    <label class="radio-item"><input type="checkbox"> <span>HQs</span></label>
-                                    <label class="radio-item"><input type="checkbox"> <span>Autoajuda</span></label>
-                                    <label class="radio-item"><input type="checkbox"> <span>Idiomas</span></label>
-                                    <label class="radio-item"><input type="checkbox" id="chk-desapega"> <span style="font-weight: bold; color: var(--color-accent);">Desapega Uni</span></label>
-                                </div>
-                            </div>
-
-                            <div class="input-group" id="area-desapega" style="min-width: 180px; display: none;">
-                                <label class="input-label">Áreas:*</label>
-                                <div style="display: flex; flex-direction: column; gap: 8px;">
-                                    <label class="radio-item"><input type="checkbox"> <span>Direito</span></label>
-                                    <label class="radio-item"><input type="checkbox"> <span>Letras</span></label>
-                                    <label class="radio-item"><input type="checkbox"> <span>Engenharia</span></label>
-                                    <label class="radio-item"><input type="checkbox"> <span>Medicina</span></label>
-                                    <label class="radio-item"><input type="checkbox"> <span>Tecnologia</span></label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn-laranja" id="btn-submit-anuncio">Anunciar</button>
-                </form>
-            </div>
+                <div class="row-footer">
+                    <label class="check-item"><input type="checkbox"> Estou ciente e concordo com os <i>termos de uso</i></label>
+                    <label class="check-item"><input type="checkbox"> Estou ciente e concordo com a <i>política de privacidade</i></label>
+                    <button type="submit" class="btn-anunciar-final" id="btn-submit">Anunciar livro</button>
+                </div>
+            </form>
         </div>
     </div>
 </main>
 
-<div th:replace="~{fragments/footer :: footer}"></div>
-
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const tabLivro = document.getElementById('tab-livro');
-        const tabColecao = document.getElementById('tab-colecao');
-        const inputTitulo = document.getElementById('input-titulo');
-        const btnSubmit = document.getElementById('btn-submit-anuncio');
-        const chkDesapega = document.getElementById('chk-desapega');
-        const areaDesapega = document.getElementById('area-desapega');
+    function mudarAba(tipo) {
+        const tLivro = document.getElementById('tab-livro');
+        const tColecao = document.getElementById('tab-colecao');
+        const label = document.getElementById('label-titulo');
+        const input = document.getElementById('input-titulo');
+        const btn = document.getElementById('btn-submit');
 
-        tabLivro.addEventListener('click', () => {
-            tabLivro.classList.add('active'); tabColecao.classList.remove('active');
-            inputTitulo.placeholder = "Digite o título do livro";
-            btnSubmit.innerText = "Anunciar livro";
-        });
+        if(tipo === 'colecao') {
+            tColecao.classList.remove('inactive');
+            tLivro.classList.add('inactive');
+            label.innerText = "Título da Coleção:*";
+            input.placeholder = "Digite o título da coleção";
+            btn.innerText = "Anunciar coleção";
+        } else {
+            tLivro.classList.remove('inactive');
+            tColecao.classList.add('inactive');
+            label.innerText = "Título:*";
+            input.placeholder = "Digite o título do livro";
+            btn.innerText = "Anunciar livro";
+        }
+    }
 
-        tabColecao.addEventListener('click', () => {
-            tabColecao.classList.add('active'); tabLivro.classList.remove('active');
-            inputTitulo.placeholder = "Digite o título da coleção";
-            btnSubmit.innerText = "Anunciar coleção";
-        });
+    function mostrarAreas() {
+        const trigger = document.getElementById('trigger-desapega');
+        const col = document.getElementById('coluna-areas');
 
-        chkDesapega.addEventListener('change', function() {
-            areaDesapega.style.display = this.checked ? 'block' : 'none';
-        });
-    });
+        if (trigger.checked) {
+            col.style.opacity = "1";
+            col.style.pointerEvents = "auto";
+        } else {
+            col.style.opacity = "0.3";
+            col.style.pointerEvents = "none";
+            col.querySelectorAll('input').forEach(input => input.checked = false);
+        }
+    }
 </script>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

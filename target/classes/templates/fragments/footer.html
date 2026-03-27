@@ -4,44 +4,24 @@
 
 <footer class="footer" th:fragment="footer">
     <div class="footer-inner">
-
-        <div class="footer-col footer-col-logo">
-            <a th:href="@{/}" class="footer-logo">
-                <img src="https://www.figma.com/api/mcp/asset/04e68f1e-aed5-40aa-92cd-ff1972baba26" alt="Sebo Digital">
-            </a>
-            <p class="footer-copyright">© Sebo Digital</p>
+        <div class="footer-col">
+            <img src="https://www.figma.com/api/mcp/asset/9e0ea7f2-86bf-4b56-9380-14845fe45d9b" alt="Sebo Digital" style="height: 50px;">
+            <p style="margin-top: 15px; font-size: 12px; color: #94a3b8;">© Sebo Digital</p>
         </div>
 
         <div class="footer-col">
             <p class="footer-heading">Formas de Pagamento</p>
             <div class="payment-icons">
-                <div class="payment-icon">
-                    <img src="https://www.figma.com/api/mcp/asset/968d419a-8779-4e51-8426-437f22f20e70" alt="Visa">
-                    <span>Visa</span>
-                </div>
-                <div class="payment-icon">
-                    <img src="https://www.figma.com/api/mcp/asset/1c5b2085-1124-45fc-9155-6468a1339fce" alt="Elo">
-                    <span>Elo</span>
-                </div>
-                <div class="payment-icon">
-                    <img src="https://www.figma.com/api/mcp/asset/1c5b2085-1124-45fc-9155-6468a1339fce" alt="MasterCard">
-                    <span>MC</span>
-                </div>
-                <div class="payment-icon">
-                    <img src="https://www.figma.com/api/mcp/asset/1c5b2085-1124-45fc-9155-6468a1339fce" alt="Pix">
-                    <span>Pix</span>
-                </div>
-                <div class="payment-icon">
-                    <img src="https://www.figma.com/api/mcp/asset/1c5b2085-1124-45fc-9155-6468a1339fce" alt="Boleto">
-                    <span>Boleto</span>
-                </div>
+                <img th:src="@{/img/visa.png}" alt="Visa">
+                <img th:src="@{/img/master.png}" alt="Master">
+                <img th:src="@{/img/pix.png}" alt="Pix">
+                <img th:src="@{/img/boleto.png}" alt="Boleto">
             </div>
-
-            <p class="footer-heading" style="margin-top: 6px;">Redes Sociais</p>
+            <p class="footer-heading" style="margin-top: 20px;">Redes Sociais</p>
             <div class="social-icons">
-                <a href="#"><img src="https://www.figma.com/api/mcp/asset/73351d82-9570-48f5-b3f3-d8656f0b19a9" alt="Instagram"></a>
-                <a href="#"><img src="https://www.figma.com/api/mcp/asset/73351d82-9570-48f5-b3f3-d8656f0b19a9" alt="WhatsApp"></a>
-                <a href="#"><img src="https://www.figma.com/api/mcp/asset/e11710e4-addb-4cbf-b675-656c7d09c985" alt="Facebook"></a>
+                <img th:src="@{/img/insta.png}" alt="Instagram">
+                <img th:src="@{/img/wpp.png}" alt="WhatsApp">
+                <img th:src="@{/img/fb.png}" alt="Facebook">
             </div>
         </div>
 
@@ -52,19 +32,17 @@
                 <li><a href="#">Dúvidas Frequentes</a></li>
                 <li><a href="#">Política de Privacidade</a></li>
                 <li><a href="#">Termos de Uso</a></li>
-                <li><a href="#">Como navegar pelo Sebo Digital</a></li>
             </ul>
         </div>
 
         <div class="footer-col">
             <p class="footer-heading">Contato</p>
             <ul class="footer-links">
-                <li><a href="#">Fale Conosco</a></li>
-                <li><a href="#">Telefone: (11) 4002-8922</a></li>
-                <li><a href="#">WhatsApp: (11) 94002-8922</a></li>
+                <li>Fale Conosco</li>
+                <li>(11) 4002-8922</li>
+                <li>(11) 94002-8922</li>
             </ul>
         </div>
-
     </div>
 </footer>
 
