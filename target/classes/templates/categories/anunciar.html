@@ -13,7 +13,10 @@
 
 <main class="anunciar-main">
     <div class="breadcrumb"><a th:href="@{/}">&larr; Voltar</a> | Anuncie seu livro!</div>
-    <h1 class="listagem-titulo-topo" style="font-family: var(--font-display); font-size: 40px; margin: 20px 0;">Cadastre seu produto.</h1>
+    
+    <h1 class="listagem-titulo-topo" style="font-family: var(--font-display); font-size: 40px; margin: 20px 0;" 
+        th:text="${produto != null} ? 'Edite seu produto.' : 'Cadastre seu produto.'">Cadastre seu produto.</h1>
+        
     <div class="anunciar-intro" style="margin-bottom: 30px;">
         <p style="font-size: 16px; color: var(--color-dark); margin-bottom: 10px;">
             Preencha os campos abaixo para anunciar seu produto, é importante que todas as informações sejam verídicas.
@@ -35,71 +38,75 @@
                 <div class="tab inactive" id="tab-colecao" onclick="mudarAba('colecao')">Coleção</div>
             </div>
 
-            <form class="form-body">
+            <form th:action="@{/salvar-anuncio}" method="post" class="form-body">
+                
+                <input type="hidden" name="id_produto" th:value="${produto?.id_produto}">
+
                 <div class="input-full">
                     <label class="label-bold" id="label-titulo">Título:*</label>
-                    <input type="text" class="input-style" id="input-titulo" placeholder="Digite o título do livro">
+                    <input type="text" name="titulo" class="input-style" id="input-titulo" placeholder="Digite o título do livro" th:value="${produto?.titulo}" required>
                 </div>
                 <div class="input-full">
                     <label class="label-bold">Autor:*</label>
-                    <input type="text" class="input-style" placeholder="Digite o nome do(a) autor(a)">
+                    <input type="text" name="autor" class="input-style" placeholder="Digite o nome do(a) autor(a)" th:value="${produto?.autor}" required>
                 </div>
                 <div class="input-full">
                     <label class="label-bold">Editora:</label>
-                    <input type="text" class="input-style" placeholder="Digite o nome da editora">
+                    <input type="text" name="editora" class="input-style" placeholder="Digite o nome da editora" th:value="${produto?.editora}">
                 </div>
 
                 <div class="coluna-checks">
                     <label class="label-bold">Ano de publicação:*</label>
-                    <input type="text" class="input-style" placeholder="Digite o ano">
+                    <input type="number" name="anoPublicacao" class="input-style" placeholder="Digite o ano" th:value="${produto?.anoPublicacao}" required>
 
                     <label class="label-bold" style="margin-top: 20px;">Conservação do livro:*</label>
                     <p style="font-size: 11px; margin-bottom: 10px;"><b>Ótimo estado</b> - Sinais mínimos...<br><b>Bom estado</b> - Bem cuidado...</p>
-                    <label class="check-item"><input type="radio" name="cons"> Ótimo estado</label>
-                    <label class="check-item"><input type="radio" name="cons"> Bom estado</label>
+                    <label class="check-item"><input type="radio" name="conservacao" value="Ótimo estado" th:checked="${produto?.conservacao == 'Ótimo estado'}" required> Ótimo estado</label>
+                    <label class="check-item"><input type="radio" name="conservacao" value="Bom estado" th:checked="${produto?.conservacao == 'Bom estado'}"> Bom estado</label>
 
                     <label class="label-bold" style="margin-top: 20px;">Valor:*</label>
-                    <input type="text" class="input-style" placeholder="R$ 10,00">
+                    <input type="number" step="0.01" name="preco" class="input-style" placeholder="10.00" th:value="${produto?.preco}" required>
                 </div>
 
                 <div class="coluna-checks">
                     <label class="label-bold">Selecione a categoria:*</label>
-                    <label class="check-item"><input type="checkbox"> Literatura Brasileira</label>
-                    <label class="check-item"><input type="checkbox"> Literatura Estrangeira</label>
-                    <label class="check-item"><input type="checkbox"> Romance</label>
-                    <label class="check-item"><input type="checkbox"> Poesia</label>
-                    <label class="check-item"><input type="checkbox"> Terror</label>
-                    <label class="check-item"><input type="checkbox"> Mistério & Suspense</label>
-                    <label class="check-item"><input type="checkbox"> Infanto Juvenil</label>
-                    <label class="check-item"><input type="checkbox" id="trigger-desapega" onclick="mostrarAreas()"> Desapega Uni</label>
+                    <label class="check-item"><input type="radio" name="categoria" value="Literatura Brasileira" th:checked="${produto?.categoria == 'Literatura Brasileira'}" required> Literatura Brasileira</label>
+                    <label class="check-item"><input type="radio" name="categoria" value="Literatura Estrangeira" th:checked="${produto?.categoria == 'Literatura Estrangeira'}"> Literatura Estrangeira</label>
+                    <label class="check-item"><input type="radio" name="categoria" value="Romance" th:checked="${produto?.categoria == 'Romance'}"> Romance</label>
+                    <label class="check-item"><input type="radio" name="categoria" value="Poesia" th:checked="${produto?.categoria == 'Poesia'}"> Poesia</label>
+                    <label class="check-item"><input type="radio" name="categoria" value="Terror" th:checked="${produto?.categoria == 'Terror'}"> Terror</label>
+                    <label class="check-item"><input type="radio" name="categoria" value="Mistério & Suspense" th:checked="${produto?.categoria == 'Mistério & Suspense'}"> Mistério & Suspense</label>
+                    <label class="check-item"><input type="radio" name="categoria" value="Infanto Juvenil" th:checked="${produto?.categoria == 'Infanto Juvenil'}"> Infanto Juvenil</label>
+                    <label class="check-item"><input type="radio" name="categoria" value="Desapega Uni" id="trigger-desapega" onclick="mostrarAreas()" th:checked="${produto?.categoria == 'Desapega Uni'}"> Desapega Uni</label>
                 </div>
 
                 <div class="coluna-checks" id="coluna-areas" style="opacity: 0.3; pointer-events: none;">
                     <label class="label-bold">Selecione a área:*</label>
                     <div class="checkbox-group-vertical">
-                        <label class="check-item"><input type="checkbox" name="area" value="Direito"> Direito</label>
-                        <label class="check-item"><input type="checkbox" name="area" value="Letras"> Letras</label>
-                        <label class="check-item"><input type="checkbox" name="area" value="Filosofia & Sociologia"> Filosofia & Sociologia</label>
-                        <label class="check-item"><input type="checkbox" name="area" value="Jornalismo"> Jornalismo</label>
-                        <label class="check-item"><input type="checkbox" name="area" value="Engenharia"> Engenharia</label>
-                        <label class="check-item"><input type="checkbox" name="area" value="Pedagogia"> Pedagogia</label>
-                        <label class="check-item"><input type="checkbox" name="area" value="História & Geografia"> História & Geografia</label>
-                        <label class="check-item"><input type="checkbox" name="area" value="Enfermagem"> Enfermagem</label>
-                        <label class="check-item"><input type="checkbox" name="area" value="Medicina"> Medicina</label>
-                        <label class="check-item"><input type="checkbox" name="area" value="Biomedicina"> Biomedicina</label>
-                        <label class="check-item"><input type="checkbox" name="area" value="Tecnologia"> Tecnologia</label>
+                        <label class="check-item"><input type="radio" name="area" value="Direito" th:checked="${produto?.area == 'Direito'}"> Direito</label>
+                        <label class="check-item"><input type="radio" name="area" value="Letras" th:checked="${produto?.area == 'Letras'}"> Letras</label>
+                        <label class="check-item"><input type="radio" name="area" value="Filosofia & Sociologia" th:checked="${produto?.area == 'Filosofia & Sociologia'}"> Filosofia & Sociologia</label>
+                        <label class="check-item"><input type="radio" name="area" value="Jornalismo" th:checked="${produto?.area == 'Jornalismo'}"> Jornalismo</label>
+                        <label class="check-item"><input type="radio" name="area" value="Engenharia" th:checked="${produto?.area == 'Engenharia'}"> Engenharia</label>
+                        <label class="check-item"><input type="radio" name="area" value="Pedagogia" th:checked="${produto?.area == 'Pedagogia'}"> Pedagogia</label>
+                        <label class="check-item"><input type="radio" name="area" value="História & Geografia" th:checked="${produto?.area == 'História & Geografia'}"> História & Geografia</label>
+                        <label class="check-item"><input type="radio" name="area" value="Enfermagem" th:checked="${produto?.area == 'Enfermagem'}"> Enfermagem</label>
+                        <label class="check-item"><input type="radio" name="area" value="Medicina" th:checked="${produto?.area == 'Medicina'}"> Medicina</label>
+                        <label class="check-item"><input type="radio" name="area" value="Biomedicina" th:checked="${produto?.area == 'Biomedicina'}"> Biomedicina</label>
+                        <label class="check-item"><input type="radio" name="area" value="Tecnologia" th:checked="${produto?.area == 'Tecnologia'}"> Tecnologia</label>
                     </div>
                 </div>
 
                 <div class="row-desc">
                     <label class="label-bold">Descrição:</label>
-                    <textarea class="input-style" style="height: 120px; padding: 15px; border-radius: 15px; resize: none;" placeholder="Digite aqui"></textarea>
+                    <textarea name="descricao" class="input-style" style="height: 120px; padding: 15px; border-radius: 15px; resize: none;" placeholder="Digite aqui detalhes extras do seu livro..." th:text="${produto?.descricao}"></textarea>
                 </div>
 
                 <div class="row-footer">
-                    <label class="check-item"><input type="checkbox"> Estou ciente e concordo com os <i>termos de uso</i></label>
-                    <label class="check-item"><input type="checkbox"> Estou ciente e concordo com a <i>política de privacidade</i></label>
-                    <button type="submit" class="btn-anunciar-final" id="btn-submit">Anunciar livro</button>
+                    <label class="check-item"><input type="checkbox" required> Estou ciente e concordo com os <i>termos de uso</i></label>
+                    <label class="check-item"><input type="checkbox" required> Estou ciente e concordo com a <i>política de privacidade</i></label>
+                    
+                    <button type="submit" class="btn-anunciar-final" id="btn-submit" th:text="${produto != null} ? 'Salvar Alterações' : 'Anunciar livro'">Anunciar livro</button>
                 </div>
             </form>
         </div>
@@ -119,13 +126,14 @@
             tLivro.classList.add('inactive');
             label.innerText = "Título da Coleção:*";
             input.placeholder = "Digite o título da coleção";
-            btn.innerText = "Anunciar coleção";
+            // O botão original dizia "Anunciar Coleção", vamos manter isso pro JS
+            if(btn.innerText === "Anunciar livro") btn.innerText = "Anunciar coleção";
         } else {
             tLivro.classList.remove('inactive');
             tColecao.classList.add('inactive');
             label.innerText = "Título:*";
             input.placeholder = "Digite o título do livro";
-            btn.innerText = "Anunciar livro";
+            if(btn.innerText === "Anunciar coleção") btn.innerText = "Anunciar livro";
         }
     }
 
@@ -133,15 +141,20 @@
         const trigger = document.getElementById('trigger-desapega');
         const col = document.getElementById('coluna-areas');
 
-        if (trigger.checked) {
+        if (trigger && trigger.checked) {
             col.style.opacity = "1";
             col.style.pointerEvents = "auto";
-        } else {
+        } else if(trigger) {
             col.style.opacity = "0.3";
             col.style.pointerEvents = "none";
             col.querySelectorAll('input').forEach(input => input.checked = false);
         }
     }
+
+    // Garante que, ao editar um livro, se ele for do Desapega Uni, a área carrega aberta!
+    window.onload = function() {
+        mostrarAreas();
+    };
 </script>
 
 <div th:replace="~{fragments/footer :: footer}"></div>

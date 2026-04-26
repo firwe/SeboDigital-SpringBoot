@@ -65,17 +65,40 @@
         </aside>
 
         <div class="resultados-grid">
-            <a th:href="@{/produto}" class="card-horizontal">
+
+            <div th:if="${#lists.isEmpty(produtos)}" style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #64748b; font-size: 18px;">
+                <p>Nenhum livro foi cadastrado no acervo ainda.</p>
+            </div>
+
+            <div class="card-horizontal" th:each="livro : ${produtos}">
                 <div class="card-horiz-img"></div>
                 <div class="card-horiz-info">
-                    <span class="card-tag">Coleção - Fantasia</span>
-                    <span class="card-titulo">Box Harry Potter - Edição Comemorativa</span>
-                    <span class="card-preco">R$ 249,90</span>
-                    <span class="card-detalhe"><b>Autor:</b> J.K. Rowling</span>
-                    <span class="card-detalhe"><b>Itens:</b> 7 volumes + Poster</span>
-                    <div class="btn-ver-mais">Ver mais</div>
+                    <span class="card-tag" th:text="'Acervo - ' + ${livro.categoria}">Acervo - Categoria</span>
+                    <span class="card-titulo" th:text="${livro.titulo}">Título do Livro</span>
+
+                    <span class="card-preco" th:text="'R$ ' + ${livro.preco}">R$ 00,00</span>
+
+                    <span class="card-detalhe"><b>Autor:</b> <span th:text="${livro.autor}">Nome do Autor</span></span>
+                    <span class="card-detalhe"><b>Ano:</b> <span th:text="${livro.anoPublicacao}">2024</span></span>
+
+                    <div style="display: flex; gap: 10px; margin-top: auto; padding-top: 15px; align-items: center;">
+
+                        <a th:href="@{/produto/{id}(id=${livro.id_produto})}" class="btn-ver-mais" style="text-decoration: none; display: flex; align-items: center; justify-content: center; margin: 0;">Ver mais</a>
+
+                        <a th:href="@{/editar-produto/{id}(id=${livro.id_produto})}" style="background: #eab308; color: white; text-decoration: none; padding: 0 20px; height: 35px; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-weight: 600; font-family: var(--font-body); font-size: 13px; transition: 0.2s;">
+                            Editar
+                        </a>
+
+                        <form th:action="@{/deletar-produto/{id}(id=${livro.id_produto})}" method="post" style="margin: 0;">
+                            <button type="submit" style="background: #ef4444; color: white; border: none; padding: 0 20px; height: 35px; border-radius: 20px; cursor: pointer; font-weight: 600; font-family: var(--font-body); font-size: 13px; transition: 0.2s;">
+                                Apagar
+                            </button>
+                        </form>
+
+                    </div>
                 </div>
-            </a>
+            </div>
+
         </div>
     </div>
 </main>

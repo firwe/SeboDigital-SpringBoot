@@ -3,57 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalhes do Produto - Sebo Digital</title>
+    <title th:text="${produto.titulo} + ' - Sebo Digital'">Detalhes do Produto</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/produto.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
 </head>
 <body>
 
 <div th:replace="~{fragments/header :: header}"></div>
 
-<main class="secao" style="padding-top: 40px; padding-bottom: 80px;">
+<main class="produto-main">
 
-    <div class="breadcrumb" style="margin-bottom: 20px;">
-        <a th:href="@{/acervo}" style="color: var(--color-muted);">&larr; Voltar para o acervo</a>
+    <div class="breadcrumb" style="margin-bottom: 30px; max-width: 1100px; margin-left: auto; margin-right: auto;">
+        <a th:href="@{/acervo}" style="color: var(--color-muted); text-decoration: none; font-weight: 600;">&larr; Voltar para o acervo</a>
     </div>
 
-    <div style="display: flex; gap: 60px; align-items: flex-start; flex-wrap: wrap;">
+    <div class="produto-container">
 
-        <div style="flex: 0 0 400px; height: 550px; background-color: var(--color-gray); border: 1px solid #000; border-radius: 20px; display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: var(--shadow-card);">
-            <div style="font-size: 100px; color: #999; transform: rotate(45deg);">+</div>
+        <div class="produto-img-box">
+            📸
         </div>
 
-        <div style="flex: 1; min-width: 300px;">
-            <span style="color: var(--color-muted); font-size: 14px; text-transform: uppercase;">Explorar Acervo - Literatura Brasileira</span>
-            <h1 style="font-family: var(--font-display); font-size: 50px; margin: 10px 0;">Quarto de Despejo</h1>
-            <p style="font-size: 32px; color: var(--color-accent); font-weight: 700; margin-bottom: 30px;">R$ 35,00</p>
+        <div class="produto-info">
+            <span class="produto-categoria" th:text="'Explorar Acervo - ' + ${produto.categoria}">Explorar Acervo - Categoria</span>
+            
+            <h1 class="produto-titulo" th:text="${produto.titulo}">Título do Livro</h1>
+            
+            <p class="produto-preco" th:text="'R$ ' + ${produto.preco}">R$ 00,00</p>
 
-            <div style="background: white; padding: 25px; border-radius: 20px; border: 1px solid #ddd; margin-bottom: 30px;">
-                <h3 style="margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px;">Especificações</h3>
-                <p style="margin: 8px 0;"><strong>Autor:</strong> Carolina Maria de Jesus</p>
-                <p style="margin: 8px 0;"><strong>Editora:</strong> Ática</p>
-                <p style="margin: 8px 0;"><strong>Ano:</strong> 2021</p>
-                <p style="margin: 8px 0;"><strong>Conservação:</strong> Ótimo estado</p>
+            <div class="produto-especificacoes">
+                <h3>Especificações</h3>
+                <p><strong>Autor:</strong> <span th:text="${produto.autor}">Nome do Autor</span></p>
+                <p><strong>Editora:</strong> <span th:text="${produto.editora != null and produto.editora != '' ? produto.editora : 'Não informada'}">Nome da Editora</span></p>
+                <p><strong>Ano:</strong> <span th:text="${produto.anoPublicacao}">Ano</span></p>
+                <p><strong>Conservação:</strong> <span th:text="${produto.conservacao}">Estado</span></p>
             </div>
 
-            <div style="margin-bottom: 40px;">
-                <h3 style="margin-bottom: 10px;">Descrição</h3>
-                <p style="line-height: 1.6; color: var(--color-muted);">
-                    O diário da catadora de papel Carolina Maria de Jesus deu origem a este livro, que relata o cotidiano triste e cruel da vida na favela. Um clássico da literatura brasileira que precisa ser lido.
+            <div class="produto-descricao">
+                <h3>Descrição</h3>
+                <p th:text="${produto.descricao != null and produto.descricao != '' ? produto.descricao : 'Nenhuma descrição fornecida pelo anunciante.'}">
+                    Descrição do livro.
                 </p>
             </div>
 
-            <button class="btn-auth" style="max-width: 300px;">Adicionar ao Carrinho</button>
+            <div style="background: #f8fafc; padding: 20px; border-radius: 16px; border: 1px solid #e2e8f0; margin-top: 10px; margin-bottom: 10px;">
+                <label style="display: block; margin-bottom: 10px; font-weight: 600; color: var(--color-dark);">Simular Frete e Prazo</label>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="cepInput" placeholder="Digite seu CEP (ex: 01001-000)" maxlength="9" style="padding: 12px 15px; border-radius: 10px; border: 1px solid #cbd5e1; flex: 1; font-family: var(--font-body); font-size: 15px; outline: none;">
+                    <button type="button" onclick="calcularFrete()" style="background: #1e293b; color: white; border: none; padding: 0 25px; border-radius: 10px; cursor: pointer; font-weight: 600; font-family: var(--font-body); transition: 0.2s;">Calcular</button>
+                </div>
+                
+                <div id="resultadoFrete" style="margin-top: 15px; display: none; background: white; padding: 15px; border-radius: 10px; border: 1px dashed #cbd5e1;">
+                    </div>
+            </div>
+            <div class="produto-acoes">
+                <form th:action="@{/carrinho}" method="post">
+                    <input type="hidden" name="id_produto" th:value="${produto.id_produto}">
+                    <button type="submit" class="btn-carrinho">
+                        <span style="font-size: 22px;">🛒</span> Adicionar ao Carrinho
+                    </button>
+                </form>
+            </div>
         </div>
 
     </div>
 </main>
 
 <div th:replace="~{fragments/footer :: footer}"></div>
+
+<script>
+    function calcularFrete() {
+        const cep = document.getElementById('cepInput').value;
+        const divResultado = document.getElementById('resultadoFrete');
+        const btn = document.querySelector('button[onclick="calcularFrete()"]');
+        
+        if (cep.replace(/\D/g, '').length !== 8) {
+            alert("Por favor, digite um CEP válido com 8 números.");
+            return;
+        }
+
+        btn.innerText = "Calculando...";
+        
+        // Chama a SUA API (que por baixo dos panos chama o ViaCEP no back-end)
+        fetch('/api/frete/' + cep)
+            .then(response => response.text())
+            .then(text => {
+                btn.innerText = "Calcular";
+                if (!text) { 
+                    divResultado.style.display = "block";
+                    divResultado.innerHTML = "<p style='color: #dc2626; margin: 0; font-weight: 600;'>CEP não encontrado ou inválido.</p>";
+                    return;
+                }
+                
+                const data = JSON.parse(text); 
+                divResultado.style.display = "block";
+                
+                divResultado.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; margin-bottom: 10px;">
+                        <span style="color: #059669; font-weight: 700; font-size: 16px;">🚚 Frete Expresso</span>
+                        <span style="font-size: 20px; font-weight: 700; color: #eab308;">R$ ${data.valorFrete.toFixed(2).replace('.', ',')}</span>
+                    </div>
+                    <p style="margin: 5px 0; font-size: 14px; color: #475569;"><b>Destino:</b> ${data.logradouro}, ${data.bairro}</p>
+                    <p style="margin: 5px 0; font-size: 14px; color: #475569;">${data.localidade} - ${data.uf}</p>
+                    <p style="margin: 5px 0; font-size: 14px; color: #475569;"><b>Chega em:</b> ${data.prazo}</p>
+                `;
+            })
+            .catch(error => {
+                btn.innerText = "Calcular";
+                alert("Erro ao consultar o frete.");
+            });
+    }
+</script>
 
 </body>
 </html>
