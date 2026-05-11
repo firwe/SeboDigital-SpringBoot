@@ -13,10 +13,10 @@
 
 <main class="anunciar-main">
     <div class="breadcrumb"><a th:href="@{/}">&larr; Voltar</a> | Anuncie seu livro!</div>
-    
-    <h1 class="listagem-titulo-topo" style="font-family: var(--font-display); font-size: 40px; margin: 20px 0;" 
+
+    <h1 class="listagem-titulo-topo" style="font-family: var(--font-display); font-size: 40px; margin: 20px 0;"
         th:text="${produto != null} ? 'Edite seu produto.' : 'Cadastre seu produto.'">Cadastre seu produto.</h1>
-        
+
     <div class="anunciar-intro" style="margin-bottom: 30px;">
         <p style="font-size: 16px; color: var(--color-dark); margin-bottom: 10px;">
             Preencha os campos abaixo para anunciar seu produto, é importante que todas as informações sejam verídicas.
@@ -28,8 +28,13 @@
 
     <div class="anunciar-container">
         <div class="upload-sidebar">
-            <div class="foto-placeholder"></div>
-            <div class="btn-foto-footer">Adicione a foto aqui</div>
+            <div class="foto-placeholder" id="foto-container" style="overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                <img th:if="${produto?.imagemBase64 != null}" th:src="'data:image/jpeg;base64,' + ${produto.imagemBase64}" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+
+            <label for="file-upload" class="btn-foto-footer" style="cursor: pointer; display: block; text-align: center;">Adicione a foto aqui</label>
+
+            <input type="file" name="file" id="file-upload" accept="image/*" style="display: none;" onchange="previewFile()" form="form-anuncio">
         </div>
 
         <div class="form-panel">
@@ -38,9 +43,10 @@
                 <div class="tab inactive" id="tab-colecao" onclick="mudarAba('colecao')">Coleção</div>
             </div>
 
-            <form th:action="@{/salvar-anuncio}" method="post" class="form-body">
-                
+            <form id="form-anuncio" th:action="@{/salvar-anuncio}" method="post" class="form-body" enctype="multipart/form-data">
+
                 <input type="hidden" name="id_produto" th:value="${produto?.id_produto}">
+                <input type="hidden" name="colecao" id="input-colecao" th:value="${produto?.colecao != null ? produto.colecao : false}">
 
                 <div class="input-full">
                     <label class="label-bold" id="label-titulo">Título:*</label>
@@ -105,7 +111,7 @@
                 <div class="row-footer">
                     <label class="check-item"><input type="checkbox" required> Estou ciente e concordo com os <i>termos de uso</i></label>
                     <label class="check-item"><input type="checkbox" required> Estou ciente e concordo com a <i>política de privacidade</i></label>
-                    
+
                     <button type="submit" class="btn-anunciar-final" id="btn-submit" th:text="${produto != null} ? 'Salvar Alterações' : 'Anunciar livro'">Anunciar livro</button>
                 </div>
             </form>
@@ -114,44 +120,64 @@
 </main>
 
 <script>
-    function mudarAba(tipo) {
-        const tLivro = document.getElementById('tab-livro');
-        const tColecao = document.getElementById('tab-colecao');
-        const label = document.getElementById('label-titulo');
-        const input = document.getElementById('input-titulo');
-        const btn = document.getElementById('btn-submit');
+    function previewFile() {
+        const preview = document.getElementById('foto-container');
+        const file = document.getElementById('file-upload').files[0];
+        const reader = new FileReader();
 
-        if(tipo === 'colecao') {
-            tColecao.classList.remove('inactive');
-            tLivro.classList.add('inactive');
-            label.innerText = "Título da Coleção:*";
-            input.placeholder = "Digite o título da coleção";
-            // O botão original dizia "Anunciar Coleção", vamos manter isso pro JS
-            if(btn.innerText === "Anunciar livro") btn.innerText = "Anunciar coleção";
-        } else {
-            tLivro.classList.remove('inactive');
-            tColecao.classList.add('inactive');
-            label.innerText = "Título:*";
-            input.placeholder = "Digite o título do livro";
-            if(btn.innerText === "Anunciar coleção") btn.innerText = "Anunciar livro";
+        reader.onloadend = function () {
+            preview.innerHTML = `<img src="${reader.result}" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;">`;
+        }
+
+        if (file) {
+            reader.readAsDataURL(file);
         }
     }
+
+    function mudarAba(tipo) {
+    const tLivro = document.getElementById('tab-livro');
+    const tColecao = document.getElementById('tab-colecao');
+    const label = document.getElementById('label-titulo');
+    const input = document.getElementById('input-titulo');
+    const btn = document.getElementById('btn-submit');
+    const inputColecao = document.getElementById('input-colecao');
+
+    if(tipo === 'colecao') {
+        tColecao.classList.remove('inactive');
+        tLivro.classList.add('inactive');
+        label.innerText = "Título da Coleção:*";
+        input.placeholder = "Digite o título da coleção";
+
+        inputColecao.value = "true";
+    } else {
+        tLivro.classList.remove('inactive');
+        tColecao.classList.add('inactive');
+        label.innerText = "Título:*";
+        input.placeholder = "Digite o título do livro";
+
+        inputColecao.value = "false";
+    }
+}
 
     function mostrarAreas() {
         const trigger = document.getElementById('trigger-desapega');
         const col = document.getElementById('coluna-areas');
+        const areaInputs = col.querySelectorAll('input[type="radio"]');
 
         if (trigger && trigger.checked) {
             col.style.opacity = "1";
             col.style.pointerEvents = "auto";
+            areaInputs.forEach(input => input.required = true);
         } else if(trigger) {
             col.style.opacity = "0.3";
             col.style.pointerEvents = "none";
-            col.querySelectorAll('input').forEach(input => input.checked = false);
+            areaInputs.forEach(input => {
+                input.required = false;
+                input.checked = false;
+            });
         }
     }
 
-    // Garante que, ao editar um livro, se ele for do Desapega Uni, a área carrega aberta!
     window.onload = function() {
         mostrarAreas();
     };

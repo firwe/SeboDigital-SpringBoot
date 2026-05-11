@@ -7,7 +7,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <link rel="stylesheet" th:href="@{/css/header.css}">
     <link rel="stylesheet" th:href="@{/css/listagem.css}">
@@ -15,114 +14,64 @@
 </head>
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
-
 <main class="listagem-main">
     <div class="breadcrumb">
         <a th:href="@{/}">&larr; Voltar</a> | Desapega Uni
     </div>
-
     <h1 class="listagem-titulo-topo">Conhece a iniciativa Desapega Uni?</h1>
-
     <div class="desapega-info-texto">
         <p>Sabemos que a vida universitária traz muitos desafios e um dos principais é o alto custo dos livros exigidos como leitura obrigatória. O Sebo Digital criou esta seção para facilitar o acesso ao conhecimento através da economia colaborativa.</p>
     </div>
-
     <div class="listagem-container">
         <aside class="sidebar-filtros">
             <h2 class="sidebar-titulo">Refine sua pesquisa aqui!</h2>
             <form th:action="@{/desapega}" method="get">
-
                 <div class="filtro-group">
                     <label class="filtro-label">Livro/ Coleção:</label>
                     <input type="text" name="titulo" class="filtro-input" placeholder="Digite o nome do livro">
                 </div>
-
-                <div class="filtro-group">
-                    <label class="filtro-label">Autor:</label>
-                    <input type="text" name="autor" class="filtro-input" placeholder="Digite o nome do(a) autor(a)">
-                </div>
-
-                <div class="filtro-group">
-                    <label class="filtro-label">Ano:</label>
-                    <input type="text" name="ano" class="filtro-input" placeholder="Digite o ano">
-                </div>
-
-                <div class="filtro-group">
-                    <label class="filtro-label">Preço:</label>
-                    <div style="display: flex; gap: 10px; align-items: center;">
-                        <input type="number" name="min" class="filtro-input" placeholder="Mínimo">
-                        <input type="number" name="max" class="filtro-input" placeholder="Máximo">
-                    </div>
-                </div>
-
-                <div class="filtro-group">
-                    <label class="filtro-label">Conservação do livro:</label>
-                    <div class="filtro-checkbox-list">
-                        <label class="filtro-checkbox-item"><input type="checkbox"> Bom estado</label>
-                        <label class="filtro-checkbox-item"><input type="checkbox"> Ótimo estado</label>
-                    </div>
-                </div>
-
                 <div class="filtro-group">
                     <label class="filtro-label">Áreas Acadêmicas:*</label>
-                    <div class="filtro-checkbox-list">
-                        <label class="filtro-checkbox-item"><input type="checkbox"> Direito</label>
-                        <label class="filtro-checkbox-item"><input type="checkbox"> Letras</label>
-                        <label class="filtro-checkbox-item"><input type="checkbox"> Filosofia & Sociologia</label>
-                        <label class="filtro-checkbox-item"><input type="checkbox"> Jornalismo</label>
-                        <label class="filtro-checkbox-item"><input type="checkbox"> Engenharia</label>
-                        <label class="filtro-checkbox-item"><input type="checkbox"> Pedagogia</label>
-                        <label class="filtro-checkbox-item"><input type="checkbox"> História & Geografia</label>
-                        <label class="filtro-checkbox-item"><input type="checkbox"> Enfermagem</label>
-                        <label class="filtro-checkbox-item"><input type="checkbox"> Medicina</label>
-                        <label class="filtro-checkbox-item"><input type="checkbox"> Biomedicina</label>
-                        <label class="filtro-checkbox-item"><input type="checkbox"> Tecnologia</label>
-                    </div>
+                    <select name="area" class="filtro-input" style="appearance: auto; padding: 5px;">
+                        <option value="">Todas as áreas</option>
+                        <option value="Direito">Direito</option>
+                        <option value="Letras">Letras</option>
+                        <option value="Tecnologia">Tecnologia</option>
+                        <option value="Medicina">Medicina</option>
+                    </select>
                 </div>
-
                 <button type="submit" class="btn-procurar">Procurar</button>
             </form>
         </aside>
-
         <div class="resultados-grid">
-
             <div th:if="${#lists.isEmpty(produtos)}" style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #64748b; font-size: 18px;">
-                <p>Nenhum livro foi cadastrado no acervo ainda.</p>
+                <p>Nenhum material acadêmico disponível no momento.</p>
             </div>
-
             <div class="card-horizontal" th:each="livro : ${produtos}">
-                <div class="card-horiz-img"></div>
+                <div class="card-horiz-img" style="overflow: hidden; display: flex; align-items: center; justify-content: center; background: #e2e8f0; border-right: 1px solid #f1f5f9;">
+                    <img th:if="${livro.imagemBase64 != null}" th:src="'data:image/jpeg;base64,' + ${livro.imagemBase64}" style="width: 100%; height: 100%; object-fit: cover;">
+                    <span th:unless="${livro.imagemBase64 != null}" style="font-size: 40px; color: #94a3b8;">📸</span>
+                </div>
                 <div class="card-horiz-info">
-                    <span class="card-tag" th:text="'Acervo - ' + ${livro.categoria}">Acervo - Categoria</span>
-                    <span class="card-titulo" th:text="${livro.titulo}">Título do Livro</span>
-
+                    <span class="card-tag" th:text="'Desapega Uni - ' + ${livro.area}">Desapega Uni</span>
+                    <span class="card-titulo" th:text="${livro.titulo}">Título</span>
                     <span class="card-preco" th:text="'R$ ' + ${livro.preco}">R$ 00,00</span>
-
-                    <span class="card-detalhe"><b>Autor:</b> <span th:text="${livro.autor}">Nome do Autor</span></span>
-                    <span class="card-detalhe"><b>Ano:</b> <span th:text="${livro.anoPublicacao}">2024</span></span>
-
+                    <span class="card-detalhe"><b>Autor:</b> <span th:text="${livro.autor}">Nome</span></span>
+                    <span class="card-detalhe" th:if="${livro.dono != null}"><b>Doador/Vendedor:</b> <span th:text="${livro.dono.nome}">Nome</span></span>
                     <div style="display: flex; gap: 10px; margin-top: auto; padding-top: 15px; align-items: center;">
-
                         <a th:href="@{/produto/{id}(id=${livro.id_produto})}" class="btn-ver-mais" style="text-decoration: none; display: flex; align-items: center; justify-content: center; margin: 0;">Ver mais</a>
-
-                        <a th:href="@{/editar-produto/{id}(id=${livro.id_produto})}" style="background: #eab308; color: white; text-decoration: none; padding: 0 20px; height: 35px; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-weight: 600; font-family: var(--font-body); font-size: 13px; transition: 0.2s;">
-                            Editar
-                        </a>
-
-                        <form th:action="@{/deletar-produto/{id}(id=${livro.id_produto})}" method="post" style="margin: 0;">
-                            <button type="submit" style="background: #ef4444; color: white; border: none; padding: 0 20px; height: 35px; border-radius: 20px; cursor: pointer; font-weight: 600; font-family: var(--font-body); font-size: 13px; transition: 0.2s;">
-                                Apagar
-                            </button>
-                        </form>
-
+                        <div th:if="${session.usuarioLogado != null and ((livro.dono != null and livro.dono.id_usuario == session.usuarioLogado.id_usuario) or session.usuarioLogado.admin == true)}" style="display: flex; gap: 10px;">
+                            <a th:href="@{/editar-produto/{id}(id=${livro.id_produto})}" style="background: #eab308; color: white; text-decoration: none; padding: 0 20px; height: 35px; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px;">Editar</a>
+                            <form th:action="@{/deletar-produto/{id}(id=${livro.id_produto})}" method="post" style="margin: 0;">
+                                <button type="submit" style="background: #ef4444; color: white; border: none; padding: 0 20px; height: 35px; border-radius: 20px; cursor: pointer; font-weight: 600; font-size: 13px;">Apagar</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </main>
-
 <div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

@@ -21,6 +21,14 @@
 
         <h1 class="auth-title">Bem-vindo de volta!</h1>
 
+        <div th:if="${param.erro}" style="background: #fee2e2; color: #dc2626; padding: 12px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-weight: 600; font-size: 14px; border: 1px solid #f87171;">
+            E-mail ou senha incorretos! Tente novamente.
+        </div>
+
+        <div th:if="${param.precisaLogar}" style="background: #e0f2fe; color: #0369a1; padding: 12px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-weight: 600; font-size: 14px; border: 1px solid #7dd3fc;">
+            Para anunciar um livro no Sebo Digital, você precisa acessar sua conta primeiro!
+        </div>
+
         <form th:action="@{/login}" method="post" class="auth-form">
             <div class="form-group">
                 <label class="form-label">E-mail</label>
@@ -29,7 +37,7 @@
 
             <div class="form-group">
                 <label class="form-label">Senha</label>
-                <input type="password" name="password" class="form-input" placeholder="Digite sua senha" required>
+                <input type="password" name="senha" class="form-input" placeholder="Digite sua senha" required>
             </div>
 
             <button type="submit" class="btn-auth">Entrar na conta</button>

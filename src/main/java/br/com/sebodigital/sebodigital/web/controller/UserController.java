@@ -12,19 +12,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class UserController {
 
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
     @GetMapping("/login")
     public String login() {
         return "user/login";
     }
 
     @PostMapping("/login")
-    public String efetuarLogin(@RequestParam String email, @RequestParam String password, HttpSession session) {
+    public String efetuarLogin(@RequestParam String email, @RequestParam String senha, HttpSession session) {
 
-        Usuario user = usuarioRepository.findByEmailAndSenha(email, password);
+        Usuario user = usuarioRepository.findByEmailAndSenha(email, senha);
 
         if (user != null) {
             session.setAttribute("usuarioLogado", user);
-            return "redirect:/";
+            return "redirect:/acervo";
         }
 
         return "redirect:/login?erro";
@@ -35,12 +38,19 @@ public class UserController {
         return "user/cadastro";
     }
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-
     @PostMapping("/cadastrar")
     public String cadastrarUsuario(Usuario usuario) {
+        if ("admin@sebo.com".equals(usuario.getEmail())) {
+            usuario.setAdmin(true);
+        }
+
         usuarioRepository.save(usuario);
         return "redirect:/login";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
     }
 }

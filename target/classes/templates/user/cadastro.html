@@ -11,21 +11,23 @@
 
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <link rel="stylesheet" th:href="@{/css/header.css}">
-    <link rel="stylesheet" th:href="@{/css/auth.css}"> <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/auth.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
 </head>
 <body>
 
 <div th:replace="~{fragments/header :: header}"></div>
 
 <main class="auth-main">
-    <div class="auth-container" style="max-width: 800px;"> <div class="breadcrumb" style="align-self: flex-start; margin-bottom: 20px;">
-        <a th:href="@{/}">Home</a> | <a th:href="@{/login}">Login</a> | Cadastro
-    </div>
+    <div class="auth-container" style="max-width: 800px;">
+        <div class="breadcrumb" style="align-self: flex-start; margin-bottom: 20px;">
+            <a th:href="@{/}">Home</a> | <a th:href="@{/login}">Login</a> | Cadastro
+        </div>
 
         <h1 class="auth-title">Crie sua conta</h1>
         <p style="text-align: center; margin-bottom: 30px; color: var(--color-muted);">Junte-se à nossa comunidade de leitores.</p>
 
-        <form th:action="@{/usuarios/cadastrar}" method="post" class="auth-form">
+        <form th:action="@{/cadastrar}" method="post" class="auth-form">
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%;">
 
                 <div class="form-group">
@@ -64,31 +66,9 @@
                         <option value="" disabled selected>Selecione seu estado</option>
                         <option value="AC">Acre</option>
                         <option value="AL">Alagoas</option>
-                        <option value="AP">Amapá</option>
-                        <option value="AM">Amazonas</option>
-                        <option value="BA">Bahia</option>
-                        <option value="CE">Ceará</option>
-                        <option value="DF">Distrito Federal</option>
-                        <option value="ES">Espírito Santo</option>
-                        <option value="GO">Goiás</option>
-                        <option value="MA">Maranhão</option>
-                        <option value="MT">Mato Grosso</option>
-                        <option value="MS">Mato Grosso do Sul</option>
-                        <option value="MG">Minas Gerais</option>
-                        <option value="PA">Pará</option>
-                        <option value="PB">Paraíba</option>
-                        <option value="PR">Paraná</option>
-                        <option value="PE">Pernambuco</option>
-                        <option value="PI">Piauí</option>
-                        <option value="RJ">Rio de Janeiro</option>
-                        <option value="RN">Rio Grande do Norte</option>
-                        <option value="RS">Rio Grande do Sul</option>
-                        <option value="RO">Rondônia</option>
-                        <option value="RR">Roraima</option>
-                        <option value="SC">Santa Catarina</option>
                         <option value="SP">São Paulo</option>
-                        <option value="SE">Sergipe</option>
-                        <option value="TO">Tocantins</option>
+                        <option value="RJ">Rio de Janeiro</option>
+                        <option value="MG">Minas Gerais</option>
                     </select>
                 </div>
 
@@ -105,9 +85,7 @@
                 </label>
             </div>
 
-            <form th:action="@{/usuarios/cadastrar}" method="post" class="auth-form">
-                <button type="submit" class="btn-auth">Finalizar Cadastro</button>
-            </form>
+            <button type="submit" class="btn-auth" style="margin-top: 20px;">Finalizar Cadastro</button>
         </form>
     </div>
 </main>
