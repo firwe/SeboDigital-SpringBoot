@@ -5,7 +5,7 @@
 <header class="header" th:fragment="header">
     <div class="header-top">
         <a th:href="@{/}" class="header-logo">
-            <img src="https://www.figma.com/api/mcp/asset/9e0ea7f2-86bf-4b56-9380-14845fe45d9b" alt="Sebo Digital">
+            <img th:src="@{/img/Trocafolha.png}" alt="Sebo Digital">
         </a>
 
         <div class="header-search">
@@ -19,17 +19,17 @@
             </a>
 
             <a th:href="@{/carrinho}" class="action-item">
-                <div class="action-icon"><img th:src="@{/img/carrinho.png}" alt="Carrinho"></div>
+                <div class="action-icon"><img th:src="@{/img/shopping_cart_PNG38.png}" alt="Carrinho"></div>
                 <span class="action-label">Carrinho</span>
             </a>
 
             <a th:href="@{/login}" class="action-item" th:if="${session.usuarioLogado == null}">
-                <div class="action-icon"><img th:src="@{/img/user-off.png}" alt="Login"></div>
+                <div class="action-icon"><img th:src="@{/img/perfil.png}" alt="Login"></div>
                 <span class="action-label">Faça Login</span>
             </a>
 
             <div class="action-item" th:if="${session.usuarioLogado != null}">
-                <div class="action-icon"><img th:src="@{/img/user-on.png}" alt="Perfil"></div>
+                <div class="action-icon"><img th:src="@{/img/perfil.png}" alt="Perfil"></div>
                 <span class="action-label" th:text="${session.usuarioLogado.nome}">User Name</span>
                 <a th:href="@{/logout}" class="logout-link">Sair</a>
             </div>
