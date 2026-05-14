@@ -6,7 +6,7 @@
     <title>Desapega Uni - Sebo Digital</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <link rel="stylesheet" th:href="@{/css/header.css}">
     <link rel="stylesheet" th:href="@{/css/listagem.css}">
@@ -14,57 +14,102 @@
 </head>
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
+
 <main class="listagem-main">
     <div class="breadcrumb">
         <a th:href="@{/}">&larr; Voltar</a> | Desapega Uni
     </div>
-    <h1 class="listagem-titulo-topo">Conhece a iniciativa Desapega Uni?</h1>
+
+    <h1 class="listagem-titulo-topo" style="font-family: 'Source Sans 3', sans-serif; font-weight: 700;">Iniciativa Desapega Uni</h1>
+
     <div class="desapega-info-texto">
-        <p>Sabemos que a vida universitária traz muitos desafios e um dos principais é o alto custo dos livros exigidos como leitura obrigatória. O Sebo Digital criou esta seção para facilitar o acesso ao conhecimento através da economia colaborativa.</p>
+        <p>Facilitando o acesso ao conhecimento universitário através da economia colaborativa. Encontre aqui livros e materiais acadêmicos com preços acessíveis.</p>
     </div>
+
     <div class="listagem-container">
         <aside class="sidebar-filtros">
-            <h2 class="sidebar-titulo">Refine sua pesquisa aqui!</h2>
+            <h2 class="sidebar-titulo" style="font-family: 'Source Sans 3', sans-serif;">Áreas Acadêmicas</h2>
+
             <form th:action="@{/desapega}" method="get">
                 <div class="filtro-group">
-                    <label class="filtro-label">Livro/ Coleção:</label>
-                    <input type="text" name="titulo" class="filtro-input" placeholder="Digite o nome do livro">
+                    <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
+
+                        <label class="check-item">
+                            <input type="radio" name="area" value="" th:checked="${areaSelecionada == null || areaSelecionada == ''}"> Todas as áreas
+                        </label>
+
+                        <label class="check-item" th:each="area : ${ {'Direito', 'Medicina', 'Enfermagem', 'Psicologia', 'Engenharia', 'Tecnologia', 'Administração', 'Economia', 'Letras', 'Pedagogia', 'História', 'Geografia', 'Biologia', 'Artes'} }">
+                            <input type="radio" name="area" th:value="${area}" th:checked="${areaSelecionada == area}">
+                            <span th:text="${area}">Área</span>
+                        </label>
+
+                    </div>
                 </div>
-                <div class="filtro-group">
-                    <label class="filtro-label">Áreas Acadêmicas:*</label>
-                    <select name="area" class="filtro-input" style="appearance: auto; padding: 5px;">
-                        <option value="">Todas as áreas</option>
-                        <option value="Direito">Direito</option>
-                        <option value="Letras">Letras</option>
-                        <option value="Tecnologia">Tecnologia</option>
-                        <option value="Medicina">Medicina</option>
-                    </select>
+
+                <div class="filtro-group" style="margin-top: 20px;">
+                    <label class="filtro-label">Preço Máximo (R$):</label>
+                    <div style="display: flex; gap: 10px; margin-top: 10px;">
+                        <input type="number" name="min" class="filtro-input" placeholder="Min" th:value="${min}" style="width: 80px;">
+                        <input type="number" name="max" class="filtro-input" placeholder="Max" th:value="${max}" style="width: 80px;">
+                    </div>
                 </div>
-                <button type="submit" class="btn-procurar">Procurar</button>
+
+                <button type="submit" class="btn-procurar" style="width: 100%; margin-top: 20px; border-radius: 4px;">Filtrar Área</button>
+                <a th:href="@{/desapega}" style="display: block; text-align: center; margin-top: 10px; font-size: 12px; color: #64748b; text-decoration: none;">Limpar seleção</a>
             </form>
         </aside>
+
         <div class="resultados-grid">
-            <div th:if="${#lists.isEmpty(produtos)}" style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #64748b; font-size: 18px;">
-                <p>Nenhum material acadêmico disponível no momento.</p>
+            <div th:if="${#lists.isEmpty(produtos)}" style="grid-column: 1 / -1; text-align: center; padding: 50px; color: #64748b;">
+                <p>Nenhuma coleção encontrada com esses filtros.</p>
             </div>
-            <div class="card-horizontal" th:each="livro : ${produtos}">
-                <div class="card-horiz-img" style="overflow: hidden; display: flex; align-items: center; justify-content: center; background: #e2e8f0; border-right: 1px solid #f1f5f9;">
-                    <img th:if="${livro.imagemBase64 != null}" th:src="'data:image/jpeg;base64,' + ${livro.imagemBase64}" style="width: 100%; height: 100%; object-fit: cover;">
-                    <span th:unless="${livro.imagemBase64 != null}" style="font-size: 40px; color: #94a3b8;">📸</span>
+
+            <div class="card-horizontal" th:each="livro : ${produtos}"
+                 th:onclick="|window.location.href='/produto/' + ${livro.id_produto}|"
+                 style="cursor: pointer;">
+
+                <div class="card-horiz-img" style="background: #f1f5f9; border-right: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center; overflow: hidden; width: 200px;">
+                    <img th:if="${livro.imagemBase64 != null and !livro.imagemBase64.isEmpty()}"
+                         th:src="|data:image/jpeg;base64,${livro.imagemBase64}|"
+                         style="width: 100%; height: 100%; object-fit: cover;">
+                    <span th:unless="${livro.imagemBase64 != null and !livro.imagemBase64.isEmpty()}"
+                          style="color: #94a3b8; font-size: 11px; font-weight: 700;">SEM FOTO</span>
                 </div>
+
                 <div class="card-horiz-info">
-                    <span class="card-tag" th:text="'Desapega Uni - ' + ${livro.area}">Desapega Uni</span>
-                    <span class="card-titulo" th:text="${livro.titulo}">Título</span>
-                    <span class="card-preco" th:text="'R$ ' + ${livro.preco}">R$ 00,00</span>
-                    <span class="card-detalhe"><b>Autor:</b> <span th:text="${livro.autor}">Nome</span></span>
-                    <span class="card-detalhe" th:if="${livro.dono != null}"><b>Doador/Vendedor:</b> <span th:text="${livro.dono.nome}">Nome</span></span>
-                    <div style="display: flex; gap: 10px; margin-top: auto; padding-top: 15px; align-items: center;">
-                        <a th:href="@{/produto/{id}(id=${livro.id_produto})}" class="btn-ver-mais" style="text-decoration: none; display: flex; align-items: center; justify-content: center; margin: 0;">Ver mais</a>
-                        <div th:if="${session.usuarioLogado != null and ((livro.dono != null and livro.dono.id_usuario == session.usuarioLogado.id_usuario) or session.usuarioLogado.admin == true)}" style="display: flex; gap: 10px;">
-                            <a th:href="@{/editar-produto/{id}(id=${livro.id_produto})}" style="background: #eab308; color: white; text-decoration: none; padding: 0 20px; height: 35px; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px;">Editar</a>
-                            <form th:action="@{/deletar-produto/{id}(id=${livro.id_produto})}" method="post" style="margin: 0;">
-                                <button type="submit" style="background: #ef4444; color: white; border: none; padding: 0 20px; height: 35px; border-radius: 20px; cursor: pointer; font-weight: 600; font-size: 13px;">Apagar</button>
-                            </form>
+                    <span class="card-tag">Coleção Exclusiva</span>
+                    <span class="card-titulo" style="font-weight: 700; color: #1e293b;" th:text="${livro.titulo}">Título</span>
+                    <span class="card-preco" style="font-weight: 700;" th:text="'R$ ' + ${#numbers.formatDecimal(livro.preco, 1, 2, 'POINT')}">R$ 0,00</span>
+                    <span class="card-detalhe">Autor: <span th:text="${livro.autor}">Nome</span></span>
+
+                    <div style="display: flex; gap: 8px; margin-top: auto; padding-top: 15px; align-items: center; width: 100%;">
+
+                        <form th:action="@{/carrinho/adicionar}" method="post" style="margin: 0; flex: 1;">
+                            <input type="hidden" name="id_produto" th:value="${livro.id_produto}">
+                            <button type="submit" onclick="event.stopPropagation();"
+                                    style="width: 100%; border: none; border-radius: 8px; font-weight: 700; background: #1e293b; color: white; height: 35px; cursor: pointer; font-size: 13px;">
+                                🛒 Adicionar
+                            </button>
+                        </form>
+
+                        <div th:if="${session.usuarioLogado != null}" style="display: flex; gap: 5px;">
+
+                            <th:block th:if="${session.usuarioLogado.admin == true or (livro.dono != null and livro.dono.id_usuario == session.usuarioLogado.id_usuario)}">
+
+                                <a th:href="@{/editar-produto/{id}(id=${livro.id_produto})}"
+                                   onclick="event.stopPropagation();"
+                                   style="background: #64748b; color: white; text-decoration: none; padding: 0 12px; height: 35px; border-radius: 8px; display: flex; align-items: center; font-size: 11px; font-weight: 600;">
+                                    Editar
+                                </a>
+
+                                <form th:action="@{/deletar-produto/{id}(id=${livro.id_produto})}" method="post" style="margin: 0;">
+                                    <button type="submit" onclick="event.stopPropagation();"
+                                            style="background: #b91c1c; color: white; border: none; padding: 0 12px; height: 35px; border-radius: 8px; cursor: pointer; font-size: 11px; font-weight: 600;">
+                                        Apagar
+                                    </button>
+                                </form>
+
+                            </th:block>
                         </div>
                     </div>
                 </div>

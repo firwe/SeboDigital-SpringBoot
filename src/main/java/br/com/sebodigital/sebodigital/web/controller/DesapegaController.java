@@ -12,10 +12,4 @@ public class DesapegaController {
     @Autowired
     private ProdutoRepository produtoRepository;
 
-    @GetMapping("/desapega")
-    public String exibirDesapega(Model model) {
-        // Busca apenas o que tem a categoria exata que você definiu no rádio button
-        model.addAttribute("produtos", produtoRepository.findByCategoria("Desapega Uni"));
-        return "categories/desapega";
-    }
 }

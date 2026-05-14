@@ -6,8 +6,7 @@
     <title>Sebo Digital - Home</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <link rel="stylesheet" th:href="@{/css/header.css}">
     <link rel="stylesheet" th:href="@{/css/home.css}">
@@ -21,50 +20,61 @@
 
 <main>
     <section class="secao secao-acervo">
-        <h2 class="secao-titulo">Veja alguns dos livros do nosso acervo</h2>
+        <h2 class="secao-titulo" style="font-family: 'Source Sans 3', sans-serif;">Destaques do Acervo</h2>
         <div class="livros-grid">
-            <a th:href="@{/produto}" class="livro-card">
-                <div class="livro-img">
-                    <img src="https://www.figma.com/api/mcp/asset/10922411-4f2a-4df0-97e4-3ca9e2984df7" alt="Quarto de Despejo">
+            <div th:if="${#lists.isEmpty(produtos)}" style="grid-column: 1 / -1; text-align: center; padding: 20px; color: #64748b;">
+                <p>Nenhum livro disponível no momento.</p>
+            </div>
+            <a th:each="livro : ${produtos}" th:href="@{/produto/{id}(id=${livro.id_produto})}" class="livro-card" style="text-decoration: none; color: inherit;">
+                <div class="livro-img" style="background: #f1f5f9; display: flex; align-items: center; justify-content: center; height: 250px; overflow: hidden; border-radius: 8px;">
+                    <img th:if="${livro.imagemBase64 != null and !livro.imagemBase64.isEmpty()}" th:src="|data:image/jpeg;base64,${livro.imagemBase64}|" style="width: 100%; height: 100%; object-fit: cover;">
+                    <span th:unless="${livro.imagemBase64 != null and !livro.imagemBase64.isEmpty()}" style="color: #94a3b8; font-size: 11px; font-weight: 600;">SEM FOTO</span>
                 </div>
                 <div class="livro-info">
-                    <span class="livro-nome">Quarto de Despejo</span>
-                    <span class="livro-preco">R$35,00</span>
+                    <span class="livro-nome" style="font-weight: 700; display: block; margin-top: 10px;" th:text="${livro.titulo}">Título</span>
+                    <span class="livro-preco" style="color: #1e293b; font-weight: 700;" th:text="'R$ ' + ${#numbers.formatDecimal(livro.preco, 1, 2, 'POINT')}">R$ 0,00</span>
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">
-                        <span class="livro-autor" style="font-size: 11px;">Carolina Maria de Jesus</span>
-                        <span class="btn-detalhes">Detalhes</span>
+                        <span class="livro-autor" style="font-size: 12px; color: #64748b;" th:text="${livro.autor}">Autor</span>
+                        <span class="btn-detalhes" style="font-size: 10px; font-weight: 700; color: #1e293b; border: 1px solid #1e293b; padding: 2px 8px; border-radius: 4px;">Detalhes</span>
                     </div>
                 </div>
             </a>
-            <div th:each="i : ${#numbers.sequence(1, 5)}" class="livro-card">
-                <div class="livro-img" style="height: 150px; background: var(--color-gray);"></div>
-                <div class="livro-info">
-                    <span class="livro-nome">Título Exemplo</span>
-                    <span class="livro-preco">R$00,00</span>
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">
-                        <span class="livro-autor" style="font-size: 11px;">Autor</span>
-                        <span class="btn-detalhes">Detalhes</span>
+        </div>
+    </section>
+
+    <section class="secao" th:if="${romances != null and !#lists.isEmpty(romances)}" style="background: #fdf2f8; padding: 40px 0;">
+        <div style="max-width: 1100px; margin: 0 auto; padding: 0 20px;">
+            <h2 class="secao-titulo" style="font-family: 'Source Sans 3', sans-serif; margin-bottom: 25px;">Para os Apaixonados: Romances</h2>
+            <div class="livros-grid">
+                <a th:each="livro : ${romances}" th:href="@{/produto/{id}(id=${livro.id_produto})}" class="livro-card" style="text-decoration: none; color: inherit;">
+                    <div class="livro-img" style="background: #fff; display: flex; align-items: center; justify-content: center; height: 250px; overflow: hidden; border-radius: 8px;">
+                        <img th:if="${livro.imagemBase64 != null and !livro.imagemBase64.isEmpty()}" th:src="|data:image/jpeg;base64,${livro.imagemBase64}|" style="width: 100%; height: 100%; object-fit: cover;">
+                        <span th:unless="${livro.imagemBase64 != null and !livro.imagemBase64.isEmpty()}" style="color: #94a3b8; font-size: 11px; font-weight: 600;">SEM FOTO</span>
                     </div>
-                </div>
+                    <div class="livro-info">
+                        <span class="livro-nome" style="font-weight: 700; display: block; margin-top: 10px;" th:text="${livro.titulo}">Título</span>
+                        <span class="livro-preco" style="font-weight: 700;" th:text="'R$ ' + ${#numbers.formatDecimal(livro.preco, 1, 2, 'POINT')}">R$ 0,00</span>
+                    </div>
+                </a>
             </div>
         </div>
     </section>
 
-    <section class="secao secao-categorias" id="categorias">
-        <h2 class="secao-titulo">Categorias</h2>
-        <div class="categorias-grid">
-            <a th:href="@{/acervo}" class="categoria-card">Literatura Brasileira</a>
-            <a th:href="@{/acervo}" class="categoria-card">Literatura Estrangeira</a>
-            <a th:href="@{/acervo}" class="categoria-card">Romance</a>
-            <a th:href="@{/acervo}" class="categoria-card">Poesia</a>
-            <a th:href="@{/acervo}" class="categoria-card">Terror</a>
-            <a th:href="@{/acervo}" class="categoria-card">Mistério & Suspense</a>
-            <a th:href="@{/acervo}" class="categoria-card">Infanto Juvenil</a>
-            <a th:href="@{/acervo}" class="categoria-card">Mangás</a>
-            <a th:href="@{/acervo}" class="categoria-card">HQs</a>
-            <a th:href="@{/acervo}" class="categoria-card">Autoajuda</a>
-            <a th:href="@{/acervo}" class="categoria-card">Idiomas</a>
-            <a th:href="@{/desapega}" class="categoria-card" style="border-color: var(--color-accent); color: var(--color-accent);">Desapega Uni</a>
+    <section class="secao secao-categorias" id="categorias" style="padding: 60px 0; background: #f8fafc;">
+        <h2 class="secao-titulo" style="font-family: 'Source Sans 3', sans-serif; text-align: center; margin-bottom: 30px;">Navegue por Categorias</h2>
+        <div class="categorias-grid" style="max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(6, 1fr); gap: 15px; padding: 0 20px;">
+            <a th:href="@{/acervo(categoria='Literatura Brasileira')}" class="categoria-card">Literatura Brasileira</a>
+            <a th:href="@{/acervo(categoria='Literatura Estrangeira')}" class="categoria-card">Literatura Estrangeira</a>
+            <a th:href="@{/acervo(categoria='Ficção')}" class="categoria-card">Ficção</a>
+            <a th:href="@{/acervo(categoria='Romance')}" class="categoria-card">Romance</a>
+            <a th:href="@{/acervo(categoria='Poesia')}" class="categoria-card">Poesia</a>
+            <a th:href="@{/acervo(categoria='Terror')}" class="categoria-card">Terror</a>
+            <a th:href="@{/acervo(categoria='Mistério & Suspense')}" class="categoria-card">Mistério & Suspense</a>
+            <a th:href="@{/acervo(categoria='Infanto Juvenil')}" class="categoria-card">Infanto Juvenil</a>
+            <a th:href="@{/acervo(categoria='Mangás')}" class="categoria-card">Mangás</a>
+            <a th:href="@{/acervo(categoria='Autoajuda')}" class="categoria-card">Autoajuda</a>
+            <a th:href="@{/acervo(categoria='Idiomas')}" class="categoria-card">Idiomas</a>
+            <a th:href="@{/desapega}" class="categoria-card" style="border: 2px solid #1e293b; color: #1e293b; font-weight: 700;">Desapega Uni</a>
         </div>
     </section>
 </main>

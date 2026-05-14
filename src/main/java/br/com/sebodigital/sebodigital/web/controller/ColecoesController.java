@@ -11,10 +11,4 @@ public class ColecoesController {
 
     @Autowired
     private ProdutoRepository produtoRepository;
-
-    @GetMapping("/colecoes")
-    public String exibirColecoes(Model model) {
-        model.addAttribute("produtos", produtoRepository.findByColecaoTrue());
-        return "categories/colecoes";
-    }
 }

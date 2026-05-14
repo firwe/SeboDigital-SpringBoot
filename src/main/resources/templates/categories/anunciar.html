@@ -28,13 +28,15 @@
 
     <div class="anunciar-container">
         <div class="upload-sidebar">
-            <div class="foto-placeholder" id="foto-container" style="overflow: hidden; display: flex; align-items: center; justify-content: center;">
-                <img th:if="${produto?.imagemBase64 != null}" th:src="'data:image/jpeg;base64,' + ${produto.imagemBase64}" style="width: 100%; height: 100%; object-fit: cover;">
+            <div class="foto-placeholder" id="foto-container" style="overflow: hidden; display: flex; align-items: center; justify-content: center; border: 2px dashed #cbd5e1; min-height: 250px; background: #f8fafc;">
+                <img th:if="${produto?.imagemBase64 != null}" th:src="'data:image/jpeg;base64,' + ${produto.imagemBase64}" style="width: 100%; height: 100%; object-fit: cover;" id="img-preview">
+                <span th:unless="${produto?.imagemBase64 != null}" style="color: #94a3b8; font-size: 13px; text-align: center; padding: 20px;">A foto real do produto<br><b>é obrigatória</b></span>
             </div>
 
-            <label for="file-upload" class="btn-foto-footer" style="cursor: pointer; display: block; text-align: center;">Adicione a foto aqui</label>
+            <label for="file-upload" class="btn-foto-footer" style="cursor: pointer; display: block; text-align: center; margin-top: 10px;">Selecionar Foto</label>
 
             <input type="file" name="file" id="file-upload" accept="image/*" style="display: none;" onchange="previewFile()" form="form-anuncio">
+            <p style="font-size: 11px; color: #ef4444; text-align: center; margin-top: 8px; font-weight: 600;">* Upload de imagem obrigatório</p>
         </div>
 
         <div class="form-panel">
@@ -43,9 +45,8 @@
                 <div class="tab inactive" id="tab-colecao" onclick="mudarAba('colecao')">Coleção</div>
             </div>
 
-            <form id="form-anuncio" th:action="@{/salvar-anuncio}" method="post" class="form-body" enctype="multipart/form-data">
-
-                <input type="hidden" name="id_produto" th:value="${produto?.id_produto}">
+            <form id="form-anuncio" th:action="@{/salvar-anuncio}" method="post" class="form-body" enctype="multipart/form-data" onsubmit="return validarFormulario()">
+                <input type="hidden" name="id_produto" id="id_produto" th:value="${produto?.id_produto}">
                 <input type="hidden" name="colecao" id="input-colecao" th:value="${produto?.colecao != null ? produto.colecao : false}">
 
                 <div class="input-full">
@@ -64,12 +65,9 @@
                 <div class="coluna-checks">
                     <label class="label-bold">Ano de publicação:*</label>
                     <input type="number" name="anoPublicacao" class="input-style" placeholder="Digite o ano" th:value="${produto?.anoPublicacao}" required>
-
                     <label class="label-bold" style="margin-top: 20px;">Conservação do livro:*</label>
-                    <p style="font-size: 11px; margin-bottom: 10px;"><b>Ótimo estado</b> - Sinais mínimos...<br><b>Bom estado</b> - Bem cuidado...</p>
                     <label class="check-item"><input type="radio" name="conservacao" value="Ótimo estado" th:checked="${produto?.conservacao == 'Ótimo estado'}" required> Ótimo estado</label>
                     <label class="check-item"><input type="radio" name="conservacao" value="Bom estado" th:checked="${produto?.conservacao == 'Bom estado'}"> Bom estado</label>
-
                     <label class="label-bold" style="margin-top: 20px;">Valor:*</label>
                     <input type="number" step="0.01" name="preco" class="input-style" placeholder="10.00" th:value="${produto?.preco}" required>
                 </div>
@@ -78,40 +76,44 @@
                     <label class="label-bold">Selecione a categoria:*</label>
                     <label class="check-item"><input type="radio" name="categoria" value="Literatura Brasileira" th:checked="${produto?.categoria == 'Literatura Brasileira'}" required> Literatura Brasileira</label>
                     <label class="check-item"><input type="radio" name="categoria" value="Literatura Estrangeira" th:checked="${produto?.categoria == 'Literatura Estrangeira'}"> Literatura Estrangeira</label>
+                    <label class="check-item"><input type="radio" name="categoria" value="Ficção" th:checked="${produto?.categoria == 'Ficção'}"> Ficção</label>
                     <label class="check-item"><input type="radio" name="categoria" value="Romance" th:checked="${produto?.categoria == 'Romance'}"> Romance</label>
                     <label class="check-item"><input type="radio" name="categoria" value="Poesia" th:checked="${produto?.categoria == 'Poesia'}"> Poesia</label>
                     <label class="check-item"><input type="radio" name="categoria" value="Terror" th:checked="${produto?.categoria == 'Terror'}"> Terror</label>
                     <label class="check-item"><input type="radio" name="categoria" value="Mistério & Suspense" th:checked="${produto?.categoria == 'Mistério & Suspense'}"> Mistério & Suspense</label>
                     <label class="check-item"><input type="radio" name="categoria" value="Infanto Juvenil" th:checked="${produto?.categoria == 'Infanto Juvenil'}"> Infanto Juvenil</label>
+                    <label class="check-item"><input type="radio" name="categoria" value="Mangás" th:checked="${produto?.categoria == 'Mangás'}"> Mangás</label>
+                    <label class="check-item"><input type="radio" name="categoria" value="Autoajuda" th:checked="${produto?.categoria == 'Autoajuda'}"> Autoajuda</label>
+                    <label class="check-item"><input type="radio" name="categoria" value="Idiomas" th:checked="${produto?.categoria == 'Idiomas'}"> Idiomas</label>
                     <label class="check-item"><input type="radio" name="categoria" value="Desapega Uni" id="trigger-desapega" onclick="mostrarAreas()" th:checked="${produto?.categoria == 'Desapega Uni'}"> Desapega Uni</label>
                 </div>
 
                 <div class="coluna-checks" id="coluna-areas" style="opacity: 0.3; pointer-events: none;">
-                    <label class="label-bold">Selecione a área:*</label>
-                    <div class="checkbox-group-vertical">
+                    <label class="label-bold">Selecione a área acadêmica:*</label>
+                    <div class="checkbox-group-vertical" style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
                         <label class="check-item"><input type="radio" name="area" value="Direito" th:checked="${produto?.area == 'Direito'}"> Direito</label>
-                        <label class="check-item"><input type="radio" name="area" value="Letras" th:checked="${produto?.area == 'Letras'}"> Letras</label>
-                        <label class="check-item"><input type="radio" name="area" value="Filosofia & Sociologia" th:checked="${produto?.area == 'Filosofia & Sociologia'}"> Filosofia & Sociologia</label>
-                        <label class="check-item"><input type="radio" name="area" value="Jornalismo" th:checked="${produto?.area == 'Jornalismo'}"> Jornalismo</label>
-                        <label class="check-item"><input type="radio" name="area" value="Engenharia" th:checked="${produto?.area == 'Engenharia'}"> Engenharia</label>
-                        <label class="check-item"><input type="radio" name="area" value="Pedagogia" th:checked="${produto?.area == 'Pedagogia'}"> Pedagogia</label>
-                        <label class="check-item"><input type="radio" name="area" value="História & Geografia" th:checked="${produto?.area == 'História & Geografia'}"> História & Geografia</label>
-                        <label class="check-item"><input type="radio" name="area" value="Enfermagem" th:checked="${produto?.area == 'Enfermagem'}"> Enfermagem</label>
                         <label class="check-item"><input type="radio" name="area" value="Medicina" th:checked="${produto?.area == 'Medicina'}"> Medicina</label>
-                        <label class="check-item"><input type="radio" name="area" value="Biomedicina" th:checked="${produto?.area == 'Biomedicina'}"> Biomedicina</label>
-                        <label class="check-item"><input type="radio" name="area" value="Tecnologia" th:checked="${produto?.area == 'Tecnologia'}"> Tecnologia</label>
+                        <label class="check-item"><input type="radio" name="area" value="Enfermagem" th:checked="${produto?.area == 'Enfermagem'}"> Enfermagem</label>
+                        <label class="check-item"><input type="radio" name="area" value="Psicologia" th:checked="${produto?.area == 'Psicologia'}"> Psicologia</label>
+                        <label class="check-item"><input type="radio" name="area" value="Engenharia" th:checked="${produto?.area == 'Engenharia'}"> Engenharia</label>
+                        <label class="check-item"><input type="radio" name="area" value="Tecnologia" th:checked="${produto?.area == 'Tecnologia'}"> Tecnologia (TI)</label>
+                        <label class="check-item"><input type="radio" name="area" value="Administração" th:checked="${produto?.area == 'Administração'}"> Administração</label>
+                        <label class="check-item"><input type="radio" name="area" value="Economia" th:checked="${produto?.area == 'Economia'}"> Economia</label>
+                        <label class="check-item"><input type="radio" name="area" value="Letras" th:checked="${produto?.area == 'Letras'}"> Letras</label>
+                        <label class="check-item"><input type="radio" name="area" value="Pedagogia" th:checked="${produto?.area == 'Pedagogia'}"> Pedagogia</label>
+                        <label class="check-item"><input type="radio" name="area" value="História" th:checked="${produto?.area == 'História'}"> História</label>
+                        <label class="check-item"><input type="radio" name="area" value="Geografia" th:checked="${produto?.area == 'Geografia'}"> Geografia</label>
+                        <label class="check-item"><input type="radio" name="area" value="Biologia" th:checked="${produto?.area == 'Biologia'}"> Biologia</label>
+                        <label class="check-item"><input type="radio" name="area" value="Artes" th:checked="${produto?.area == 'Artes'}"> Artes</label>
                     </div>
                 </div>
 
                 <div class="row-desc">
                     <label class="label-bold">Descrição:</label>
-                    <textarea name="descricao" class="input-style" style="height: 120px; padding: 15px; border-radius: 15px; resize: none;" placeholder="Digite aqui detalhes extras do seu livro..." th:text="${produto?.descricao}"></textarea>
+                    <textarea name="descricao" class="input-style" style="height: 120px; padding: 15px; border-radius: 15px; resize: none;" placeholder="Detalhes extras..." th:text="${produto?.descricao}"></textarea>
                 </div>
 
                 <div class="row-footer">
-                    <label class="check-item"><input type="checkbox" required> Estou ciente e concordo com os <i>termos de uso</i></label>
-                    <label class="check-item"><input type="checkbox" required> Estou ciente e concordo com a <i>política de privacidade</i></label>
-
                     <button type="submit" class="btn-anunciar-final" id="btn-submit" th:text="${produto != null} ? 'Salvar Alterações' : 'Anunciar livro'">Anunciar livro</button>
                 </div>
             </form>
@@ -124,65 +126,60 @@
         const preview = document.getElementById('foto-container');
         const file = document.getElementById('file-upload').files[0];
         const reader = new FileReader();
+        reader.onloadend = () => {
+            preview.innerHTML = `<img src="${reader.result}" style="width: 100%; height: 100%; object-fit: cover;" id="img-preview">`;
+        }
+        if (file) reader.readAsDataURL(file);
+    }
 
-        reader.onloadend = function () {
-            preview.innerHTML = `<img src="${reader.result}" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;">`;
+    function validarFormulario() {
+        const fileInput = document.getElementById('file-upload');
+        const idProduto = document.getElementById('id_produto').value;
+        const imgPreview = document.getElementById('img-preview');
+
+        // Se for um novo produto (id vazio) e não tiver arquivo selecionado, barra o envio
+        if (!idProduto && fileInput.files.length === 0) {
+            alert("Por favor, adicione uma foto real do livro para continuar.");
+            return false;
         }
 
-        if (file) {
-            reader.readAsDataURL(file);
+        // Se for edição, mas a pessoa removeu a imagem ou algo do tipo
+        if (!imgPreview && fileInput.files.length === 0) {
+             alert("O anúncio deve conter uma imagem.");
+             return false;
         }
+
+        return true;
     }
 
     function mudarAba(tipo) {
-    const tLivro = document.getElementById('tab-livro');
-    const tColecao = document.getElementById('tab-colecao');
-    const label = document.getElementById('label-titulo');
-    const input = document.getElementById('input-titulo');
-    const btn = document.getElementById('btn-submit');
-    const inputColecao = document.getElementById('input-colecao');
-
-    if(tipo === 'colecao') {
-        tColecao.classList.remove('inactive');
-        tLivro.classList.add('inactive');
-        label.innerText = "Título da Coleção:*";
-        input.placeholder = "Digite o título da coleção";
-
-        inputColecao.value = "true";
-    } else {
-        tLivro.classList.remove('inactive');
-        tColecao.classList.add('inactive');
-        label.innerText = "Título:*";
-        input.placeholder = "Digite o título do livro";
-
-        inputColecao.value = "false";
+        const tLivro = document.getElementById('tab-livro');
+        const tColecao = document.getElementById('tab-colecao');
+        const label = document.getElementById('label-titulo');
+        const inputColecao = document.getElementById('input-colecao');
+        if(tipo === 'colecao') {
+            tColecao.classList.remove('inactive'); tLivro.classList.add('inactive');
+            label.innerText = "Título da Coleção:*"; inputColecao.value = "true";
+        } else {
+            tLivro.classList.remove('inactive'); tColecao.classList.add('inactive');
+            label.innerText = "Título:*"; inputColecao.value = "false";
+        }
     }
-}
 
     function mostrarAreas() {
         const trigger = document.getElementById('trigger-desapega');
         const col = document.getElementById('coluna-areas');
         const areaInputs = col.querySelectorAll('input[type="radio"]');
-
         if (trigger && trigger.checked) {
-            col.style.opacity = "1";
-            col.style.pointerEvents = "auto";
+            col.style.opacity = "1"; col.style.pointerEvents = "auto";
             areaInputs.forEach(input => input.required = true);
-        } else if(trigger) {
-            col.style.opacity = "0.3";
-            col.style.pointerEvents = "none";
-            areaInputs.forEach(input => {
-                input.required = false;
-                input.checked = false;
-            });
+        } else {
+            col.style.opacity = "0.3"; col.style.pointerEvents = "none";
+            areaInputs.forEach(input => { input.required = false; input.checked = false; });
         }
     }
-
-    window.onload = function() {
-        mostrarAreas();
-    };
+    window.onload = mostrarAreas;
 </script>
-
 <div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

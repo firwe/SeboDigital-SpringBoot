@@ -2,6 +2,7 @@ package br.com.sebodigital.sebodigital.model;
 
 import jakarta.persistence.*;
 import java.util.List;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "usuarios")
@@ -13,6 +14,7 @@ public class Usuario {
 
     private String nome;
     private String email;
+    @Size(min = 6, message = "A senha deve ter no mínimo 6 caracteres")
     private String senha;
     private String telefone;
 
@@ -23,6 +25,10 @@ public class Usuario {
 
     @OneToMany(mappedBy = "usuario")
     private List<Agendamento> agendamentos;
+
+    @ManyToMany
+    @JoinTable(name = "favoritos", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "produto_id"))
+    private List<Produto> favoritos;
 
     public Long getId_usuario() { return id_usuario; }
     public void setId_usuario(Long id_usuario) { this.id_usuario = id_usuario; }

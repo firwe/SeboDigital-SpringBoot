@@ -7,7 +7,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <link rel="stylesheet" th:href="@{/css/header.css}">
@@ -20,53 +20,72 @@
 
 <main class="produto-main">
 
-    <div class="breadcrumb" style="margin-bottom: 30px; max-width: 1100px; margin-left: auto; margin-right: auto;">
-        <a th:href="@{/acervo}" style="color: var(--color-muted); text-decoration: none; font-weight: 600;">&larr; Voltar para o acervo</a>
+    <div class="breadcrumb" style="margin-bottom: 30px; max-width: 1100px; margin-left: auto; margin-right: auto; font-family: 'Source Sans 3', sans-serif;">
+        <a th:href="@{/acervo}" style="color: #64748b; text-decoration: none; font-weight: 600;">&larr; Voltar para o acervo</a>
     </div>
 
-    <div class="produto-container">
+    <div class="produto-container" style="font-family: 'Source Sans 3', sans-serif;">
 
-        <div class="produto-img-box">
-            📸
+        <div class="produto-imagem-container" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; display: flex; align-items: center; justify-content: center; overflow: hidden; min-height: 500px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);">
+
+            <img th:if="${produto.imagemBase64 != null and !produto.imagemBase64.isEmpty()}"
+                 th:src="|data:image/jpeg;base64,${produto.imagemBase64}|"
+                 alt="Capa do Livro"
+                 style="width: 100%; height: 100%; object-fit: contain; max-height: 550px;">
+
+            <div th:unless="${produto.imagemBase64 != null and !produto.imagemBase64.isEmpty()}"
+                 style="text-align: center; padding: 40px;">
+                <div style="font-size: 12px; color: #94a3b8; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 20px;">
+                    Sebo Digital
+                </div>
+                <div style="font-size: 28px; color: #1e293b; font-weight: 700; line-height: 1.2; margin-bottom: 15px;"
+                     th:text="${produto.titulo}">
+                    Título do Livro
+                </div>
+                <div style="height: 2px; width: 50px; background: #e2e8f0; margin: 20px auto;"></div>
+                <div style="font-size: 16px; color: #64748b; font-weight: 400;" th:text="${produto.autor}">
+                    Autor
+                </div>
+            </div>
         </div>
 
         <div class="produto-info">
-            <span class="produto-categoria" th:text="'Explorar Acervo - ' + ${produto.categoria}">Explorar Acervo - Categoria</span>
-            
-            <h1 class="produto-titulo" th:text="${produto.titulo}">Título do Livro</h1>
-            
-            <p class="produto-preco" th:text="'R$ ' + ${produto.preco}">R$ 00,00</p>
+            <span class="produto-categoria" style="color: #64748b; text-transform: uppercase; font-size: 12px; font-weight: 700; letter-spacing: 1px;"
+                  th:text="${produto.categoria}">Categoria</span>
 
-            <div class="produto-especificacoes">
-                <h3>Especificações</h3>
-                <p><strong>Autor:</strong> <span th:text="${produto.autor}">Nome do Autor</span></p>
-                <p><strong>Editora:</strong> <span th:text="${produto.editora != null and produto.editora != '' ? produto.editora : 'Não informada'}">Nome da Editora</span></p>
-                <p><strong>Ano:</strong> <span th:text="${produto.anoPublicacao}">Ano</span></p>
-                <p><strong>Conservação:</strong> <span th:text="${produto.conservacao}">Estado</span></p>
+            <h1 class="produto-titulo" style="font-size: 36px; margin: 10px 0; color: #1e293b;" th:text="${produto.titulo}">Título do Livro</h1>
+
+            <p class="produto-preco" style="font-size: 32px; font-weight: 700; color: #1e293b; margin-bottom: 30px;"
+               th:text="'R$ ' + ${#numbers.formatDecimal(produto.preco, 1, 2, 'POINT')}">R$ 0,00</p>
+
+            <div class="produto-especificacoes" style="background: #ffffff; border: 1px solid #f1f5f9; padding: 25px; border-radius: 12px; margin-bottom: 25px;">
+                <h3 style="font-size: 18px; margin-bottom: 15px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">Especificações</h3>
+                <p style="margin: 8px 0;"><strong>Autor:</strong> <span th:text="${produto.autor}">Autor</span></p>
+                <p style="margin: 8px 0;"><strong>Editora:</strong> <span th:text="${produto.editora != null and produto.editora != '' ? produto.editora : 'Não informada'}">Editora</span></p>
+                <p style="margin: 8px 0;"><strong>Ano:</strong> <span th:text="${produto.anoPublicacao}">Ano</span></p>
+                <p style="margin: 8px 0;"><strong>Conservação:</strong> <span th:text="${produto.conservacao}">Estado</span></p>
             </div>
 
-            <div class="produto-descricao">
-                <h3>Descrição</h3>
-                <p th:text="${produto.descricao != null and produto.descricao != '' ? produto.descricao : 'Nenhuma descrição fornecida pelo anunciante.'}">
-                    Descrição do livro.
+            <div class="produto-descricao" style="margin-bottom: 30px;">
+                <h3 style="font-size: 18px; margin-bottom: 10px;">Descrição</h3>
+                <p style="color: #475569; line-height: 1.6;"
+                   th:text="${produto.descricao != null and produto.descricao != '' ? produto.descricao : 'O anunciante não forneceu uma descrição detalhada.'}">
                 </p>
             </div>
 
-            <div style="background: #f8fafc; padding: 20px; border-radius: 16px; border: 1px solid #e2e8f0; margin-top: 10px; margin-bottom: 10px;">
-                <label style="display: block; margin-bottom: 10px; font-weight: 600; color: var(--color-dark);">Simular Frete e Prazo</label>
+            <div style="background: #f8fafc; padding: 20px; border-radius: 16px; border: 1px solid #e2e8f0; margin-bottom: 25px;">
+                <label style="display: block; margin-bottom: 12px; font-weight: 600; color: #1e293b;">Simular Frete e Prazo</label>
                 <div style="display: flex; gap: 10px;">
-                    <input type="text" id="cepInput" placeholder="Digite seu CEP (ex: 01001-000)" maxlength="9" style="padding: 12px 15px; border-radius: 10px; border: 1px solid #cbd5e1; flex: 1; font-family: var(--font-body); font-size: 15px; outline: none;">
-                    <button type="button" onclick="calcularFrete()" style="background: #1e293b; color: white; border: none; padding: 0 25px; border-radius: 10px; cursor: pointer; font-weight: 600; font-family: var(--font-body); transition: 0.2s;">Calcular</button>
+                    <input type="text" id="cepInput" placeholder="00000-000" maxlength="9" style="padding: 12px; border-radius: 8px; border: 1px solid #cbd5e1; flex: 1; outline: none;">
+                    <button type="button" onclick="calcularFrete()" style="background: #1e293b; color: white; border: none; padding: 0 20px; border-radius: 8px; cursor: pointer; font-weight: 600;">Calcular</button>
                 </div>
-                
-                <div id="resultadoFrete" style="margin-top: 15px; display: none; background: white; padding: 15px; border-radius: 10px; border: 1px dashed #cbd5e1;">
-                    </div>
+                <div id="resultadoFrete" style="margin-top: 15px; display: none; background: white; padding: 15px; border-radius: 8px; border: 1px dashed #cbd5e1;"></div>
             </div>
+
             <div class="produto-acoes">
-                <form th:action="@{/carrinho}" method="post">
-                    <input type="hidden" name="id_produto" th:value="${produto.id_produto}">
-                    <button type="submit" class="btn-carrinho">
-                        <span style="font-size: 22px;">🛒</span> Adicionar ao Carrinho
+                <form th:action="@{/carrinho/adicionar}" method="post"> <input type="hidden" name="id_produto" th:value="${produto.id_produto}">
+                    <button type="submit" class="btn-carrinho" style="width: 100%; padding: 18px; border-radius: 12px; font-weight: 700; font-size: 16px; text-transform: uppercase; cursor: pointer;">
+                        Adicionar ao Carrinho
                     </button>
                 </form>
             </div>
@@ -82,41 +101,37 @@
         const cep = document.getElementById('cepInput').value;
         const divResultado = document.getElementById('resultadoFrete');
         const btn = document.querySelector('button[onclick="calcularFrete()"]');
-        
+
         if (cep.replace(/\D/g, '').length !== 8) {
-            alert("Por favor, digite um CEP válido com 8 números.");
+            alert("Por favor, digite um CEP válido.");
             return;
         }
 
         btn.innerText = "Calculando...";
-        
-        // Chama a SUA API (que por baixo dos panos chama o ViaCEP no back-end)
+
         fetch('/api/frete/' + cep)
             .then(response => response.text())
             .then(text => {
                 btn.innerText = "Calcular";
-                if (!text) { 
+                if (!text) {
                     divResultado.style.display = "block";
-                    divResultado.innerHTML = "<p style='color: #dc2626; margin: 0; font-weight: 600;'>CEP não encontrado ou inválido.</p>";
+                    divResultado.innerHTML = "<p style='color: #dc2626; margin: 0;'>CEP inválido.</p>";
                     return;
                 }
-                
-                const data = JSON.parse(text); 
+
+                const data = JSON.parse(text);
                 divResultado.style.display = "block";
-                
                 divResultado.innerHTML = `
                     <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; margin-bottom: 10px;">
-                        <span style="color: #059669; font-weight: 700; font-size: 16px;">🚚 Frete Expresso</span>
-                        <span style="font-size: 20px; font-weight: 700; color: #eab308;">R$ ${data.valorFrete.toFixed(2).replace('.', ',')}</span>
+                        <span style="color: #059669; font-weight: 700;">🚚 Frete Expresso</span>
+                        <span style="font-weight: 700; color: #1e293b;">R$ ${data.valorFrete.toFixed(2).replace('.', ',')}</span>
                     </div>
-                    <p style="margin: 5px 0; font-size: 14px; color: #475569;"><b>Destino:</b> ${data.logradouro}, ${data.bairro}</p>
-                    <p style="margin: 5px 0; font-size: 14px; color: #475569;">${data.localidade} - ${data.uf}</p>
-                    <p style="margin: 5px 0; font-size: 14px; color: #475569;"><b>Chega em:</b> ${data.prazo}</p>
+                    <p style="margin: 5px 0; font-size: 14px; color: #64748b;"><b>Chega em:</b> ${data.prazo}</p>
                 `;
             })
             .catch(error => {
                 btn.innerText = "Calcular";
-                alert("Erro ao consultar o frete.");
+                alert("Erro ao consultar frete.");
             });
     }
 </script>

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class UserController {
@@ -39,13 +40,19 @@ public class UserController {
     }
 
     @PostMapping("/cadastrar")
-    public String cadastrarUsuario(Usuario usuario) {
+    public String cadastrarUsuario(Usuario usuario, RedirectAttributes redirectAttributes) {
+        // Validação de segurança no servidor
+        if (usuario.getSenha() == null || usuario.getSenha().length() < 6) {
+            // Se a senha for curta, manda de volta com erro
+            return "redirect:/cadastro?erroSenha";
+        }
+
         if ("admin@sebo.com".equals(usuario.getEmail())) {
             usuario.setAdmin(true);
         }
 
         usuarioRepository.save(usuario);
-        return "redirect:/login";
+        return "redirect:/login?sucesso";
     }
 
     @GetMapping("/logout")

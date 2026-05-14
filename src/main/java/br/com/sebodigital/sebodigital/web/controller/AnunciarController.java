@@ -30,32 +30,6 @@ public class AnunciarController {
         return "categories/anunciar";
     }
 
-    @PostMapping("/salvar-anuncio")
-    public String salvarAnuncio(Produto produto, @RequestParam("file") MultipartFile file, HttpSession session) {
-
-        Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
-        if (usuarioLogado != null) {
-            produto.setDono(usuarioLogado);
-        }
-
-        try {
-            if (file != null && !file.isEmpty()) {
-                String imagemConvertida = Base64.getEncoder().encodeToString(file.getBytes());
-                produto.setImagemBase64(imagemConvertida);
-            } else if (produto.getId_produto() != null) {
-                Produto produtoAntigo = produtoRepository.findById(produto.getId_produto()).orElse(null);
-                if (produtoAntigo != null) {
-                    produto.setImagemBase64(produtoAntigo.getImagemBase64());
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        produtoRepository.save(produto);
-        return "redirect:/acervo";
-    }
-
     @GetMapping("/editar-produto/{id}")
     public String editarProduto(@PathVariable Long id, Model model, HttpSession session) {
         Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");

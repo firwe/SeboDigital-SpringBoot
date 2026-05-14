@@ -18,17 +18,47 @@
         <a th:href="@{/}">&larr; Voltar</a> | Explorar Acervo
     </div>
 
-    <h1 class="listagem-titulo-topo">Veja o que temos em nosso acervo</h1>
+    <h1 class="listagem-titulo-topo" style="font-family: 'Source Sans 3', sans-serif; font-weight: 700;">Veja o que temos em nosso acervo</h1>
 
     <div class="listagem-container">
         <aside class="sidebar-filtros">
-            <h2 class="sidebar-titulo">Refine sua pesquisa aqui!</h2>
+            <h2 class="sidebar-titulo" style="font-family: 'Source Sans 3', sans-serif;">Categorias</h2>
+
             <form th:action="@{/acervo}" method="get">
                 <div class="filtro-group">
-                    <label class="filtro-label">Título:</label>
-                    <input type="text" name="titulo" class="filtro-input" placeholder="Digite o título do livro">
+                    <label class="filtro-label">Título ou Autor:</label>
+                    <input type="text" name="busca" class="filtro-input" placeholder="Buscar..." th:value="${param.busca}">
                 </div>
-                <button type="submit" class="btn-procurar">Procurar</button>
+
+                <div class="filtro-group">
+                    <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
+                        <label class="check-item">
+                            <input type="radio" name="categoria" value="" th:checked="${categoriaSelecionada == null || categoriaSelecionada == ''}"> Todas as categorias
+                        </label>
+                        <label class="check-item"><input type="radio" name="categoria" value="Literatura Brasileira" th:checked="${categoriaSelecionada == 'Literatura Brasileira'}"> Literatura Brasileira</label>
+                        <label class="check-item"><input type="radio" name="categoria" value="Literatura Estrangeira" th:checked="${categoriaSelecionada == 'Literatura Estrangeira'}"> Literatura Estrangeira</label>
+                        <label class="check-item"><input type="radio" name="categoria" value="Ficção" th:checked="${categoriaSelecionada == 'Ficção'}"> Ficção</label>
+                        <label class="check-item"><input type="radio" name="categoria" value="Romance" th:checked="${categoriaSelecionada == 'Romance'}"> Romance</label>
+                        <label class="check-item"><input type="radio" name="categoria" value="Poesia" th:checked="${categoriaSelecionada == 'Poesia'}"> Poesia</label>
+                        <label class="check-item"><input type="radio" name="categoria" value="Terror" th:checked="${categoriaSelecionada == 'Terror'}"> Terror</label>
+                        <label class="check-item"><input type="radio" name="categoria" value="Mistério & Suspense" th:checked="${categoriaSelecionada == 'Mistério & Suspense'}"> Mistério & Suspense</label>
+                        <label class="check-item"><input type="radio" name="categoria" value="Infanto Juvenil" th:checked="${categoriaSelecionada == 'Infanto Juvenil'}"> Infanto Juvenil</label>
+                        <label class="check-item"><input type="radio" name="categoria" value="Mangás" th:checked="${categoriaSelecionada == 'Mangás'}"> Mangás</label>
+                        <label class="check-item"><input type="radio" name="categoria" value="Autoajuda" th:checked="${categoriaSelecionada == 'Autoajuda'}"> Autoajuda</label>
+                        <label class="check-item"><input type="radio" name="categoria" value="Idiomas" th:checked="${categoriaSelecionada == 'Idiomas'}"> Idiomas</label>
+                    </div>
+                </div>
+
+                <div class="filtro-group" style="margin-top: 20px;">
+                    <label class="filtro-label">Faixa de Preço (R$):</label>
+                    <div style="display: flex; gap: 10px; align-items: center; margin-top: 10px;">
+                        <input type="number" name="min" class="filtro-input" placeholder="Min" th:value="${min}" style="padding: 8px; width: 80px;">
+                        <span>-</span>
+                        <input type="number" name="max" class="filtro-input" placeholder="Max" th:value="${max}" style="padding: 8px; width: 80px;">
+                    </div>
+                </div>
+                <button type="submit" class="btn-procurar" style="width: 100%; margin-top: 20px; border-radius: 4px;">Filtrar Acervo</button>
+                <a th:href="@{/acervo}" style="display: block; text-align: center; margin-top: 10px; font-size: 12px; color: #64748b; text-decoration: none;">Limpar filtros</a>
             </form>
         </aside>
 
@@ -37,30 +67,51 @@
                 <p>Nenhum livro foi cadastrado no acervo ainda.</p>
             </div>
 
-            <div class="card-horizontal" th:each="livro : ${produtos}">
+            <div class="card-horizontal" th:each="livro : ${produtos}"
+                 th:onclick="|window.location.href='/produto/' + ${livro.id_produto}|"
+                 style="cursor: pointer;">
 
-                <div class="card-horiz-img" style="overflow: hidden; display: flex; align-items: center; justify-content: center; background: #e2e8f0; border-right: 1px solid #f1f5f9;">
+                <div class="card-horiz-img" style="background: #f1f5f9; border-right: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center; overflow: hidden;">
                     <img th:if="${livro.imagemBase64 != null}"
                          th:src="'data:image/jpeg;base64,' + ${livro.imagemBase64}"
                          style="width: 100%; height: 100%; object-fit: cover;">
-                    <span th:unless="${livro.imagemBase64 != null}" style="font-size: 40px; color: #94a3b8;">📸</span>
+                    <span th:unless="${livro.imagemBase64 != null}" style="color: #94a3b8; font-size: 11px; font-weight: 700;">SEM FOTO</span>
                 </div>
 
                 <div class="card-horiz-info">
-                    <span class="card-tag" th:text="'Acervo - ' + ${livro.categoria}">Acervo - Categoria</span>
-                    <span class="card-titulo" th:text="${livro.titulo}">Título do Livro</span>
-                    <span class="card-preco" th:text="'R$ ' + ${livro.preco}">R$ 00,00</span>
-                    <span class="card-detalhe"><b>Autor:</b> <span th:text="${livro.autor}">Nome do Autor</span></span>
-                    <span class="card-detalhe" th:if="${livro.dono != null}"><b>Vendido por:</b> <span th:text="${livro.dono.nome}">Nome do Vendedor</span></span>
+                    <span class="card-tag" th:text="'Acervo - ' + ${livro.categoria}">Categoria</span>
+                    <span class="card-titulo" style="font-weight: 700; color: #1e293b;" th:text="${livro.titulo}">Título</span>
+                    <span class="card-preco" style="font-weight: 700;" th:text="'R$ ' + ${#numbers.formatDecimal(livro.preco, 1, 2, 'POINT')}">R$ 0,00</span>
+                    <span class="card-detalhe">Autor: <span th:text="${livro.autor}">Nome</span></span>
 
-                    <div style="display: flex; gap: 10px; margin-top: auto; padding-top: 15px; align-items: center;">
-                        <a th:href="@{/produto/{id}(id=${livro.id_produto})}" class="btn-ver-mais" style="text-decoration: none; display: flex; align-items: center; justify-content: center; margin: 0;">Ver mais</a>
+                    <div style="display: flex; gap: 8px; margin-top: auto; padding-top: 15px; align-items: center; width: 100%;">
 
-                        <div th:if="${session.usuarioLogado != null and ((livro.dono != null and livro.dono.id_usuario == session.usuarioLogado.id_usuario) or session.usuarioLogado.admin == true)}" style="display: flex; gap: 10px;">
-                            <a th:href="@{/editar-produto/{id}(id=${livro.id_produto})}" style="background: #eab308; color: white; text-decoration: none; padding: 0 20px; height: 35px; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-weight: 600; font-family: var(--font-body); font-size: 13px;">Editar</a>
-                            <form th:action="@{/deletar-produto/{id}(id=${livro.id_produto})}" method="post" style="margin: 0;">
-                                <button type="submit" style="background: #ef4444; color: white; border: none; padding: 0 20px; height: 35px; border-radius: 20px; cursor: pointer; font-weight: 600; font-size: 13px;">Apagar</button>
-                            </form>
+                        <form th:action="@{/carrinho/adicionar}" method="post" style="margin: 0; flex: 1;">
+                            <input type="hidden" name="id_produto" th:value="${livro.id_produto}">
+                            <button type="submit" onclick="event.stopPropagation();"
+                                    style="width: 100%; border: none; border-radius: 8px; font-weight: 700; background: #1e293b; color: white; height: 35px; cursor: pointer; font-size: 13px;">
+                                🛒 Adicionar
+                            </button>
+                        </form>
+
+                        <div th:if="${session.usuarioLogado != null}" style="display: flex; gap: 5px;">
+
+                            <th:block th:if="${session.usuarioLogado.admin == true or (livro.dono != null and livro.dono.id_usuario == session.usuarioLogado.id_usuario)}">
+
+                                <a th:href="@{/editar-produto/{id}(id=${livro.id_produto})}"
+                                   onclick="event.stopPropagation();"
+                                   style="background: #64748b; color: white; text-decoration: none; padding: 0 12px; height: 35px; border-radius: 8px; display: flex; align-items: center; font-size: 11px; font-weight: 600;">
+                                    Editar
+                                </a>
+
+                                <form th:action="@{/deletar-produto/{id}(id=${livro.id_produto})}" method="post" style="margin: 0;">
+                                    <button type="submit" onclick="event.stopPropagation();"
+                                            style="background: #b91c1c; color: white; border: none; padding: 0 12px; height: 35px; border-radius: 8px; cursor: pointer; font-size: 11px; font-weight: 600;">
+                                        Apagar
+                                    </button>
+                                </form>
+
+                            </th:block>
                         </div>
                     </div>
                 </div>

@@ -8,9 +8,9 @@
             <img th:src="@{/img/Trocafolha.png}" alt="Sebo Digital">
         </a>
 
-        <div class="header-search">
-            <input type="search" placeholder="Busque por títulos, autores ou palavras-chave">
-        </div>
+        <form th:action="@{/acervo}" method="get" class="header-search">
+            <input type="search" name="busca" placeholder="Busque por títulos, autores ou palavras-chave">
+            <button type="submit" style="display:none;">Buscar</button> </form>
 
         <div class="header-actions">
             <a href="#" class="action-item">
@@ -46,17 +46,17 @@
                 <div class="dropdown-header">▲ Categorias</div>
                 <a th:href="@{/acervo(categoria='Literatura Brasileira')}">Literatura Brasileira</a>
                 <a th:href="@{/acervo(categoria='Literatura Estrangeira')}">Literatura Estrangeira</a>
+                <a th:href="@{/acervo(categoria='Ficção')}">Ficção</a>
                 <a th:href="@{/acervo(categoria='Romance')}">Romance</a>
                 <a th:href="@{/acervo(categoria='Poesia')}">Poesia</a>
                 <a th:href="@{/acervo(categoria='Terror')}">Terror</a>
-                <a th:href="@{/acervo(categoria='Misterio')}">Mistério & Suspense</a>
+                <a th:href="@{/acervo(categoria='Mistério & Suspense')}">Mistério & Suspense</a>
                 <a th:href="@{/acervo(categoria='Infanto Juvenil')}">Infanto Juvenil</a>
-                <a th:href="@{/acervo(categoria='Mangas')}">Mangás</a>
-                <a th:href="@{/acervo(categoria='HQs')}">HQs</a>
+                <a th:href="@{/acervo(categoria='Mangás')}">Mangás</a>
                 <a th:href="@{/acervo(categoria='Autoajuda')}">Autoajuda</a>
-                <a th:href="@{/acervo(categoria='Empreendedorismo')}">Empreendedorismo</a>
+                <a th:href="@{/acervo(categoria='Idiomas')}">Idiomas</a>
                 <hr>
-                <a th:href="@{/desapega}" style="font-weight: bold; color: var(--color-accent);">Desapega Uni</a>
+                <a th:href="@{/desapega}" style="font-weight: bold; color: #1e293b;">Desapega Uni</a>
             </div>
         </div>
 
